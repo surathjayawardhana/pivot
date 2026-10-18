@@ -8,7 +8,7 @@ Welcome to **PIVOT!**, a university web development project created to put our w
 
 Our goal is to build a functional, responsive, and user-friendly web experience while learning, experimenting, and improving along the way.
 
-## μας **Philo-Sophia**
+## Our **Philo-Sophia**
 
 Of course, not every plan survives contact with CSS. Designs change, bugs appear, and requirements evolve. When that happens, we adapt, rethink, and occasionally... **PIVOT!**
 
