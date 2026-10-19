@@ -1,0 +1,37 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Composer dependencies (if using Composer)
+/vendor/
+
+# Node.js dependencies and build output (if used for frontend tooling)
+/node_modules/
+/dist/
+/build/
+
+# Logs and temporary files
+*.log
+/logs/
+/tmp/
+/cache/
+/.cache/
+
+# Test and coverage output
+/coverage/
+.phpunit.cache/
+
+# IDE/editor files
+/.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local database files (do not ignore shared .sql schema/seed files)
+*.sqlite
+*.sqlite3
