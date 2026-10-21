@@ -1,0 +1,1 @@
+// PURPOSE: Client-side form checks; PHP must also validate every submitted value.

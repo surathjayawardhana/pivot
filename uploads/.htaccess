@@ -1,0 +1,5 @@
+# PURPOSE: Disable directory listings and block direct execution of uploaded script files.
+Options -Indexes
+<FilesMatch "\.(php|phtml|phar|php[0-9]*)$">
+    Require all denied
+</FilesMatch>

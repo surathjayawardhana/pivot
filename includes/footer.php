@@ -1,0 +1,1 @@
+<?php // PURPOSE: Shared footer and closing layout used by page templates. ?>

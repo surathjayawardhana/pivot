@@ -1,0 +1,1 @@
+<?php // PURPOSE: Local MySQL/PDO connection settings. Keep real credentials out of Git. ?>

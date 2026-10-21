@@ -1,0 +1,1 @@
+<?php // PURPOSE: Main entry point that loads the public homepage. ?>

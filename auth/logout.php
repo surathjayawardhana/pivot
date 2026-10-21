@@ -1,0 +1,1 @@
+<?php // PURPOSE: Safely ends the current session and logs the user out. ?>

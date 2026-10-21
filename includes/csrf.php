@@ -1,0 +1,1 @@
+<?php // PURPOSE: Holds helpers for CSRF tokens on state-changing forms and requests. ?>

@@ -1,0 +1,2 @@
+# PURPOSE: Prevent direct HTTP access to reusable include files.
+Require all denied

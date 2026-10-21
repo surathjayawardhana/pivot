@@ -1,0 +1,1 @@
+<?php // PURPOSE: Approves or rejects submitted artwork; restrict to admins. ?>

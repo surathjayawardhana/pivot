@@ -1,0 +1,1 @@
+<?php // PURPOSE: Shared HTML head and opening layout used by page templates. ?>

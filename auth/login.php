@@ -1,0 +1,1 @@
+<?php // PURPOSE: Shows the login form, verifies credentials, starts a session, and routes users by role. ?>

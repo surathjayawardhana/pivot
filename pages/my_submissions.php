@@ -1,0 +1,1 @@
+<?php // PURPOSE: Shows the logged-in student their own artwork submission history and statuses. ?>

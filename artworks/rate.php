@@ -1,0 +1,1 @@
+<?php // PURPOSE: Validates and saves a user's rating for an artwork. ?>

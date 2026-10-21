@@ -1,0 +1,1 @@
+<?php // PURPOSE: Lets an authorized artwork owner edit their submission. ?>

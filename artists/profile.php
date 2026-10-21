@@ -1,0 +1,1 @@
+<?php // PURPOSE: Displays an artist profile and that artistâ€™s approved artworks. ?>

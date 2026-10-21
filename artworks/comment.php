@@ -1,0 +1,1 @@
+<?php // PURPOSE: Validates and stores a comment on an artwork. ?>

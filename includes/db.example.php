@@ -1,0 +1,1 @@
+<?php // PURPOSE: Safe template explaining the local database setup. Copy to db.php and configure it. ?>

@@ -1,0 +1,1 @@
+<?php // PURPOSE: Validates and stores a submitted artwork, image, description, and category. ?>

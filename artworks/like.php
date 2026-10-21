@@ -1,0 +1,1 @@
+<?php // PURPOSE: Adds or removes a like for an artwork after authentication and request validation. ?>

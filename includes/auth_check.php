@@ -1,0 +1,1 @@
+<?php // PURPOSE: Checks login status and, where needed, verifies the user role/permissions. ?>

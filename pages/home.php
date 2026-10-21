@@ -1,0 +1,1 @@
+<?php // PURPOSE: Homepage content, including featured approved artworks and links to the gallery. ?>

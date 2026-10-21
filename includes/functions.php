@@ -1,0 +1,1 @@
+<?php // PURPOSE: Reusable helper functions, such as safe output escaping and flash messages. ?>

@@ -1,0 +1,1 @@
+<?php // PURPOSE: Lets the logged-in artist update their own profile. ?>

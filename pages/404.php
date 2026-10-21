@@ -1,0 +1,1 @@
+<?php // PURPOSE: User-friendly page-not-found content. ?>

@@ -1,0 +1,1 @@
+<?php // PURPOSE: Follows or unfollows an artist for the logged-in user. ?>

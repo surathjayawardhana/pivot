@@ -1,0 +1,1 @@
+<?php // PURPOSE: Shows exhibition details, dates, and participation information. ?>
