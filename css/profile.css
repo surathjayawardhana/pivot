@@ -1,0 +1,758 @@
+/* ==========================================================================
+   Artist profile, edit profile, follower lists and artwork view
+   (profile.php, edit_profile.php, followers.php, artwork.php)
+   Everything is scoped under .profile-page, so nothing else on the site changes.
+   ========================================================================== */
+
+.profile-page {
+    --pf-blue: #0D6BB6;
+    --pf-blue-dark: #0A5A9A;
+    --pf-text: #1E2933;
+    --pf-muted: #5B6671;
+    --pf-border: #DCE1E7;
+    --pf-bg: #F5F7F9;
+    --pf-surface: #FFFFFF;
+    --pf-soft: #ECEFF3;
+    --pf-red: #C62828;
+    --pf-radius: 14px;
+    --pf-radius-lg: 20px;
+
+    padding: 32px 16px 72px;
+    background: var(--pf-bg);
+    color: var(--pf-text);
+    font-family: Roboto, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.profile-page *,
+.profile-page *::before,
+.profile-page *::after {
+    box-sizing: border-box;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.profile-container--narrow {
+    max-width: 720px;
+}
+
+.profile-card {
+    background: var(--pf-surface);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: 0 1px 3px rgba(30, 41, 51, 0.06);
+}
+
+.profile-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Buttons ---------- */
+.profile-page .profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 20px;
+    border: 1px solid var(--pf-blue);
+    border-radius: var(--pf-radius);
+    background: var(--pf-blue);
+    color: #FFFFFF;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.profile-page .profile-btn:hover {
+    background: var(--pf-blue-dark);
+    border-color: var(--pf-blue-dark);
+}
+
+.profile-page .profile-btn--secondary {
+    background: var(--pf-surface);
+    color: var(--pf-blue);
+}
+
+.profile-page .profile-btn--secondary:hover {
+    background: #EAF3FA;
+    border-color: var(--pf-blue);
+}
+
+.profile-page .profile-btn--danger {
+    background: var(--pf-surface);
+    border-color: var(--pf-border);
+    color: var(--pf-red);
+}
+
+.profile-page .profile-btn--danger:hover {
+    background: #FDECEC;
+    border-color: var(--pf-red);
+}
+
+.profile-page .profile-btn--small {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 0.9rem;
+}
+
+.profile-page .profile-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.profile-page a:focus-visible,
+.profile-page button:focus-visible,
+.profile-page input:focus-visible,
+.profile-page textarea:focus-visible,
+.profile-page .profile-file:focus-visible + label {
+    outline: 2px solid var(--pf-blue);
+    outline-offset: 2px;
+}
+
+/* ---------- Notices and messages ---------- */
+.profile-notice {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 0.95rem;
+}
+
+.profile-notice--success { background: #EDF7EE; border-color: #B7DDB9; color: #1F6B2A; }
+.profile-notice--error   { background: #FDECEC; border-color: #F2B8B8; color: #A61F1F; }
+.profile-notice--info    { background: #EAF3FA; border-color: #BCD8EE; color: #0A5A9A; }
+
+.profile-message {
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.profile-message h1 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+}
+
+.profile-message p {
+    margin: 0 0 20px;
+    color: var(--pf-muted);
+}
+
+/* ---------- Profile header ---------- */
+.profile-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 28px;
+}
+
+.profile-avatar {
+    display: block;
+    width: 128px;
+    height: 128px;
+    border: 1px solid var(--pf-border);
+    border-radius: 50%;
+    background: var(--pf-soft);
+    object-fit: cover;
+}
+
+.profile-info {
+    min-width: 0;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.profile-username {
+    margin: 2px 0 0;
+    color: var(--pf-blue);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.profile-bio {
+    margin: 12px 0 0;
+    max-width: 60ch;
+    overflow-wrap: anywhere;
+}
+
+.profile-bio--empty {
+    color: var(--pf-muted);
+    font-style: italic;
+}
+
+.profile-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--pf-muted);
+}
+
+.profile-stats strong {
+    color: var(--pf-text);
+    font-size: 1.1rem;
+}
+
+.profile-stats a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.profile-stats a:hover {
+    color: var(--pf-blue);
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    min-width: 150px;
+}
+
+.profile-actions form {
+    margin: 0;
+    display: contents;
+}
+
+/* ---------- Gallery ---------- */
+.profile-gallery {
+    margin-top: 32px;
+}
+
+.profile-section-title {
+    margin: 0 0 16px;
+    font-size: 1.4rem;
+}
+
+.art-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.art-card {
+    min-width: 0;
+}
+
+.art-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
+    box-shadow: 0 1px 3px rgba(30, 41, 51, 0.06);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.art-card__link:hover {
+    border-color: var(--pf-blue);
+    box-shadow: 0 6px 16px rgba(30, 41, 51, 0.1);
+}
+
+.art-card__media {
+    display: block;
+    aspect-ratio: 4 / 3;
+    background: var(--pf-soft);
+}
+
+.art-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.art-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px 14px;
+}
+
+.art-card__title {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.art-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    align-items: center;
+    color: var(--pf-muted);
+    font-size: 0.85rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.status-badge--approved { background: #E6F4E7; color: #1F6B2A; }
+.status-badge--pending  { background: #FFF1D6; color: #8A5A00; }
+.status-badge--rejected { background: #FDECEC; color: #A61F1F; }
+
+.profile-empty {
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.profile-empty h3 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+}
+
+.profile-empty p {
+    margin: 0 0 18px;
+    color: var(--pf-muted);
+}
+
+.profile-empty p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Edit profile ---------- */
+.profile-edit {
+    padding: 32px;
+}
+
+.profile-edit__head h1 {
+    margin: 0 0 4px;
+    font-size: 1.7rem;
+}
+
+.profile-edit__head p {
+    margin: 0 0 24px;
+    color: var(--pf-muted);
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.profile-field {
+    min-width: 0;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.profile-input {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
+    color: var(--pf-text);
+    font: inherit;
+}
+
+.profile-input:focus {
+    border-color: var(--pf-blue);
+    outline: 2px solid rgba(13, 107, 182, 0.2);
+    outline-offset: 0;
+}
+
+.profile-input--readonly {
+    background: var(--pf-bg);
+    color: var(--pf-muted);
+}
+
+.profile-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.profile-help {
+    margin: 6px 0 0;
+    color: var(--pf-muted);
+    font-size: 0.85rem;
+}
+
+.profile-help--right {
+    text-align: right;
+}
+
+.profile-error {
+    min-height: 0;
+    margin: 6px 0 0;
+    color: var(--pf-red);
+    font-size: 0.875rem;
+}
+
+.profile-error:empty {
+    display: none;
+}
+
+.has-error .profile-input {
+    border-color: var(--pf-red);
+}
+
+.avatar-picker {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.avatar-picker__preview {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--pf-border);
+    border-radius: 50%;
+    background: var(--pf-soft);
+    object-fit: cover;
+}
+
+.avatar-picker__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.avatar-picker__controls .profile-help {
+    flex-basis: 100%;
+    margin: 0;
+}
+
+.profile-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.profile-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+/* ---------- Follower / following lists ---------- */
+.people {
+    padding: 28px;
+}
+
+.people__head h1 {
+    margin: 8px 0 0;
+    font-size: 1.5rem;
+    overflow-wrap: anywhere;
+}
+
+.people__back {
+    color: var(--pf-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.people__back:hover {
+    color: var(--pf-blue);
+}
+
+.people__tabs {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0 8px;
+    border-bottom: 1px solid var(--pf-border);
+}
+
+.people__tabs a {
+    margin-bottom: -1px;
+    padding: 10px 16px;
+    border-bottom: 2px solid transparent;
+    color: var(--pf-muted);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.people__tabs a span {
+    margin-left: 4px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--pf-soft);
+    font-size: 0.8rem;
+}
+
+.people__tabs a[aria-current="page"] {
+    border-bottom-color: var(--pf-blue);
+    color: var(--pf-blue);
+}
+
+.people__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.people__list li + li {
+    border-top: 1px solid var(--pf-soft);
+}
+
+.person {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 8px;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.person:hover {
+    background: var(--pf-bg);
+}
+
+.person__avatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--pf-soft);
+    object-fit: cover;
+}
+
+.person__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.person__name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.person__username {
+    color: var(--pf-muted);
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+}
+
+.people__pager {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    color: var(--pf-muted);
+}
+
+/* ---------- Single artwork ---------- */
+.artwork-view {
+    overflow: hidden;
+}
+
+.artwork-view__img {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    background: var(--pf-soft);
+    object-fit: contain;
+}
+
+.artwork-view__body {
+    padding: 24px 28px 28px;
+}
+
+.artwork-view__body h1 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+    overflow-wrap: anywhere;
+}
+
+.artwork-view__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+    margin: 0 0 16px;
+    color: var(--pf-muted);
+}
+
+.artwork-view__desc {
+    margin: 0 0 20px;
+    overflow-wrap: anywhere;
+}
+
+.person--inline {
+    display: inline-flex;
+    padding-left: 0;
+}
+
+.artwork-view__actions {
+    margin-top: 20px;
+}
+
+/* ---------- Tablet / mobile ---------- */
+@media (max-width: 52rem) {
+    .profile-header {
+        grid-template-columns: auto 1fr;
+    }
+
+    .profile-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .profile-actions .profile-btn {
+        flex: 1 1 auto;
+    }
+}
+
+@media (max-width: 36rem) {
+    .profile-page {
+        padding: 20px 12px 56px;
+    }
+
+    .profile-header {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 24px 18px;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 104px;
+        height: 104px;
+    }
+
+    .profile-stats {
+        justify-content: center;
+    }
+
+    .profile-actions {
+        width: 100%;
+    }
+
+    .profile-row {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-edit,
+    .people {
+        padding: 22px 16px;
+    }
+
+    .avatar-picker {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar-picker__controls {
+        justify-content: center;
+    }
+
+    .profile-form__actions {
+        flex-direction: column-reverse;
+    }
+
+    .art-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-page .profile-btn,
+    .art-card__link {
+        transition: none;
+    }
+}
+
+/* Clickable artwork category */
+.artwork-view__category {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.artwork-view__category:hover {
+    color: #0D6BB6;
+    text-decoration: none;
+}
+
+.artwork-view__category:focus-visible {
+    outline: 2px solid #0D6BB6;
+    outline-offset: 3px;
+}
+
+/*mmmmmmmmmmmmmmmmmmmmmmmmmm*/
+/* Make the entire artist profile component clickable */
+.artwork-view a.person.person--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    max-width: 100%;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+/* Let clicks on the avatar and text reach the parent link */
+.artwork-view a.person.person--inline .person__avatar,
+.artwork-view a.person.person--inline .person__text {
+    pointer-events: none;
+}
+
+/* Keep the entire profile area interactive */
+.artwork-view a.person.person--inline:hover .person__name {
+    color: #0D6BB6;
+}
+
+.artwork-view a.person.person--inline:focus-visible {
+    outline: 2px solid #0D6BB6;
+    outline-offset: 4px;
+    border-radius: 6px;
+}
