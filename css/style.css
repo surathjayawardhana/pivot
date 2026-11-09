@@ -1,0 +1,193 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+}
+
+main {
+    min-height: 100vh;
+}
+
+/* Category page styles. Add these to your existing style.css if you already have one. */
+
+.category-page {
+    --cat-navy: #0F2A44;
+    --cat-blue: #0D6BB6;
+    --cat-muted: #5B6B7C;
+    --cat-border: #E3E8EE;
+    --cat-placeholder: #EEF1F5;
+    padding: 3rem 0 4rem;
+    background: #FFFFFF;
+    font-family: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+}
+
+.category-page *,
+.category-page *::before,
+.category-page *::after {
+    box-sizing: border-box;
+}
+
+.category-page__container {
+    width: min(100% - 2rem, 75rem);
+    margin-inline: auto;
+}
+
+/* Intro */
+.category-intro {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.category-intro__title {
+    margin: 0 0 0.5rem;
+    color: var(--cat-navy);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.category-intro__accent {
+    color: var(--cat-blue);
+}
+
+.category-intro__text {
+    margin: 0;
+    color: var(--cat-muted);
+    font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+    line-height: 1.5;
+}
+
+/* Grid: 5 columns on desktop, 2 on tablet, 1 on small phones */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.category-grid__item {
+    min-width: 0;
+}
+
+/* Card */
+.category-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--cat-border);
+    border-radius: 0.75rem;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 42, 68, 0.06);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.category-card:hover {
+    border-color: var(--cat-blue);
+    box-shadow: 0 4px 12px rgba(15, 42, 68, 0.1);
+}
+
+.category-card:focus-visible {
+    outline: 2px solid var(--cat-blue);
+    outline-offset: 2px;
+}
+
+.category-card__media {
+    display: block;
+    aspect-ratio: 10 / 7;
+    background: var(--cat-placeholder);
+}
+
+.category-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0.875rem 1rem 0.875rem;
+}
+
+.category-card__title {
+    margin: 0 0 0.375rem;
+    color: var(--cat-navy);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.category-card__description {
+    flex: 1;
+    margin: 0;
+    color: var(--cat-muted);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+.category-card__arrow {
+    align-self: flex-end;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.5rem;
+    color: var(--cat-muted);
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.category-card:hover .category-card__arrow {
+    color: var(--cat-blue);
+    transform: translateX(2px);
+}
+
+@supports (corner-shape: squircle) {
+    .category-card {
+        corner-shape: squircle;
+    }
+}
+
+@media (max-width: 64rem) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 30rem) {
+    .category-page {
+        padding: 2rem 0 3rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .category-card,
+    .category-card__arrow {
+        transition: none;
+    }
+
+    .category-card:hover .category-card__arrow {
+        transform: none;
+    }
+}
+
+
+@media (max-width: 47.99rem) {
+    .site-nav__logout{
+        order: 5;
+        flex: 0 0 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.125rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--art-gray-300);
+    }
+}

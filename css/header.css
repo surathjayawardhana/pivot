@@ -1,0 +1,367 @@
+/* NSBM ArtCraft header. Keep the :root variables in sync with footer.css. */
+:root {
+    --art-white: #FFFFFF;
+    --art-blue: #0D6BB6;
+    --art-green: #3BA73C;
+    --art-black: #000000;
+    --art-gray-100: #F3F4F6;
+    --art-gray-300: #DDE1E6;
+    --art-gray-700: #4B5563;
+    --art-font-heading: "Hectavia", "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    --art-font-body: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+}
+
+.site-header,
+.site-header *,
+.site-header *::before,
+.site-header *::after {
+    box-sizing: border-box;
+}
+
+.site-header {
+    position: relative;
+    z-index: 100;
+
+    background: var(--art-white);
+    font-family: var(--art-font-body);
+
+    /* Soft shadow underneath the header */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+/* Top announcement bar */
+.site-header__announcement {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    background: var(--art-black);
+    color: var(--art-white);
+}
+
+.site-header__announcement-text {
+    margin: 0;
+    padding-left: 0.2em; /* balances the trailing letter-spacing so the text is truly centered */
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    line-height: 1;
+}
+
+/* Main navigation bar */
+.site-header__bar {
+    border-bottom: 1px solid var(--art-gray-300);
+    background: var(--art-white);
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: min(100% - 2rem, 90rem);
+    min-height: 4.5rem;
+    margin-inline: auto;
+}
+
+.site-nav__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+    max-width: 10rem;
+    border-radius: 0.5rem;
+}
+
+.site-nav__logo-img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 2.75rem;
+}
+
+.site-nav__menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.625rem;
+    color: var(--art-black);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.site-nav__link::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    bottom: 0.25rem;
+    left: 1rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--art-blue);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+    color: var(--art-blue);
+}
+
+.site-nav__link:hover::after,
+.site-nav__link:focus-visible::after {
+    transform: scaleX(1);
+}
+
+.site-nav__link:focus-visible {
+    outline: 2px solid var(--art-blue);
+    outline-offset: 2px;
+}
+
+.site-nav__link:focus-visible::after,
+.site-nav__link[aria-current="page"]::after {
+    background: var(--art-green);
+}
+
+.site-nav__link[aria-current="page"] {
+    color: var(--art-blue);
+}
+
+.site-nav__link[aria-current="page"]::after {
+    transform: scaleX(1);
+}
+
+/* Profile icon */
+.site-nav__profile {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: auto;
+    overflow: hidden;
+    border: 1px solid var(--art-gray-300);
+    border-radius: 50%;
+    background: var(--art-gray-100);
+    color: var(--art-blue);
+    transition: border-color 0.15s ease;
+}
+
+.site-nav__profile:hover {
+    border-color: var(--art-blue);
+}
+
+.site-nav__profile[aria-current="page"] {
+    border-color: var(--art-green);
+}
+
+.site-nav__profile:focus-visible {
+    outline: 2px solid var(--art-blue);
+    outline-offset: 2px;
+}
+
+.site-nav__profile-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.site-nav__profile-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+
+
+/* Logout button — matching the profile button style */
+.site-nav__logout {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    margin-left: 0.5rem;
+
+    border: 1px solid var(--art-gray-300);
+    border-radius: 30px; /* Pill-shaped corners */
+
+    background: var(--art-gray-100);
+    color: var(--art-blue);
+
+    font: inherit;
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+/* Hover effect */
+.site-nav__logout:hover {
+    border-color: var(--art-blue);
+}
+
+/* Keyboard accessibility */
+.site-nav__logout:focus-visible {
+    outline: 2px solid var(--art-blue);
+    outline-offset: 2px;
+}
+
+/* Pressed state */
+.site-nav__logout:active {
+    background: var(--art-gray-100);
+}
+
+/* Mobile menu button (shown only on small screens, and only when JS is running) */
+.site-nav__toggle {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--art-gray-300);
+    border-radius: 0.75rem;
+    background: var(--art-white);
+    cursor: pointer;
+}
+
+.site-nav__toggle:hover {
+    border-color: var(--art-blue);
+}
+
+.site-nav__toggle:focus-visible {
+    outline: 2px solid var(--art-blue);
+    outline-offset: 2px;
+}
+
+.site-nav__toggle-bar {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--art-black);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.site-nav.is-open .site-nav__toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.site-nav.is-open .site-nav__toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.site-nav.is-open .site-nav__toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Smoother corners where supported (superellipse, continuous curvature) */
+@supports (corner-shape: squircle) {
+    .site-nav__logo,
+    .site-nav__link,
+    .site-nav__toggle {
+        corner-shape: squircle;
+    }
+}
+
+/* Tablet */
+@media (max-width: 64rem) {
+    .site-nav {
+        gap: 1rem;
+    }
+
+    .site-nav__link {
+        padding-inline: 0.75rem;
+    }
+
+    .site-nav__link::after {
+        right: 0.75rem;
+        left: 0.75rem;
+    }
+}
+
+
+
+/* Mobile: logo, profile and menu button on one row; links below */
+@media (max-width: 47.99rem) {
+    .site-nav {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        min-height: 4rem;
+        padding-block: 0.75rem;
+    }
+
+    .site-nav__logo {
+        order: 1;
+    }
+
+    .site-nav__profile {
+        order: 2;
+    }
+
+    .site-nav__toggle {
+        order: 3;
+    }
+
+    .site-nav__menu {
+        order: 4;
+        flex: 0 0 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.125rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--art-gray-300);
+    }
+
+
+    /* Logout moves out of the top bar and sits at the end of the menu */
+    .site-nav > form {
+        order: 5;
+        flex: 0 0 100%;
+        margin: 0;
+        padding-bottom: 0.5rem;
+    }
+
+    .site-nav__logout {
+        width: 100%;
+        min-height: 2.75rem;
+        margin-left: 0;
+    }
+
+    .site-nav--js:not(.is-open) > form {
+        display: none;
+    }
+
+    .site-nav--js .site-nav__toggle {
+        display: inline-flex;
+    }
+
+    .site-nav--js:not(.is-open) .site-nav__menu {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header *,
+    .site-header *::before,
+    .site-header *::after {
+        transition: none;
+    }
+}

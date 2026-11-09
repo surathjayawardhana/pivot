@@ -1,0 +1,319 @@
+
+/* ============================================
+   NSBM ARTCRAFT - WELCOME HERO
+   Minimal | Centered | Responsive
+============================================ */
+
+/* Load Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+:root {
+    --hero-green: #3BA73C;
+    --hero-green-dark: #2e892f;
+    --hero-text: #202820;
+    --hero-muted: #687168;
+    --hero-background: #ffffff;
+}
+
+/* Main hero */
+.welcome-hero,
+.welcome-hero * {
+    box-sizing: border-box;
+}
+
+.welcome-hero {
+    width: min(100% - 2rem, 90rem);
+    margin: 1.5rem auto 2.5rem;
+    margin-top: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+
+/* ============================================
+   HERO IMAGE
+============================================ */
+
+.welcome-hero__image-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.welcome-hero__image {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+    object-position: center;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Soft image blending */
+.welcome-hero__image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to right,
+            #fff 0%,
+            transparent 7%,
+            transparent 93%,
+            #fff 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 78%,
+            rgba(255,255,255,0.65) 92%,
+            #fff 100%
+        );
+}
+
+/* ============================================
+   TEXT CONTENT
+============================================ */
+
+.welcome-hero__content {
+    width: 100%;
+    padding: 1.5rem 1rem 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Main heading */
+.welcome-hero__title {
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+
+    color: var(--hero-text);
+
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+
+    text-align: center;
+}
+
+/* Green brand name */
+.welcome-hero__brand {
+    display: inline;
+    color: var(--hero-green);
+    font-weight: 700;
+}
+
+/* Quote */
+.welcome-hero__quote {
+    width: 100%;
+    margin: 1rem auto 0;
+    padding: 0;
+
+    color: var(--hero-muted);
+    text-align: center;
+    border: none;
+}
+
+.welcome-hero__quote p {
+    margin: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(1rem, 1.2vw, 1.3rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+/* Author */
+.welcome-hero__quote cite {
+    display: block;
+    margin-top: 0.4rem;
+
+    color: var(--hero-green);
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: 0.02em;
+
+    text-align: center;
+}
+
+/* ============================================
+   EXPLORE ARTWORK BUTTON
+   Supports both old and corrected class names
+============================================ */
+
+.welcome-hero .exprore__button,
+.welcome-hero .explore__button {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    align-self: center;
+    width: fit-content;
+    min-width: 170px;
+    min-height: 48px;
+
+    margin: 1.5rem auto 0;
+    padding: 0.85rem 2rem;
+
+    background: #0D6BB6;
+    color: #ffffff;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-decoration: none;
+
+    border: 1px solid #0D6BB6;
+    border-radius: 30px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* Hover */
+.welcome-hero .exprore__button:hover,
+.welcome-hero .explore__button:hover {
+    background: #094c83;
+    border-color: #094c83;
+    color: #ffffff;
+
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(59, 167, 60, 0.2);
+}
+
+/* Click */
+.welcome-hero .exprore__button:active,
+.welcome-hero .explore__button:active {
+    transform: translateY(-1px);
+    box-shadow: none;
+}
+
+/* Keyboard focus */
+.welcome-hero .exprore__button:focus-visible,
+.welcome-hero .explore__button:focus-visible {
+    outline: 3px solid rgba(61, 59, 167, 0.35);
+    outline-offset: 4px;
+}
+
+/* ============================================
+   TABLET
+============================================ */
+
+@media (max-width: 768px) {
+
+    .welcome-hero {
+        width: calc(100% - 1.5rem);
+        margin: 1rem auto 2rem;
+        margin-top: 0;
+    }
+
+    .welcome-hero__content {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .welcome-hero__title {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+    }
+}
+
+/* ============================================
+   MOBILE
+============================================ */
+
+@media (max-width: 480px) {
+
+    .welcome-hero {
+        width: calc(100% - 1rem);
+        margin: 0.75rem auto 1.5rem;
+        margin-top: 0;
+    }
+
+    .welcome-hero__content {
+        padding: 1rem 0.5rem;
+    }
+
+    .welcome-hero__title {
+        font-size: 1.65rem;
+        line-height: 1.3;
+        letter-spacing: -0.025em;
+    }
+
+    .welcome-hero__brand {
+        display: block;
+        margin-top: 0.15rem;
+    }
+
+    .welcome-hero__quote {
+        margin-top: 0.85rem;
+    }
+
+    .welcome-hero__quote p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .welcome-hero__quote cite {
+        font-size: 0.85rem;
+    }
+
+    .welcome-hero .exprore__button,
+    .welcome-hero .explore__button {
+        width: min(100%, 280px);
+        min-height: 48px;
+        margin-top: 1.25rem;
+        padding: 0.8rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .welcome-hero .exprore__button,
+    .welcome-hero .explore__button {
+        transition: none;
+    }
+}
