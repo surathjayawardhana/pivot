@@ -1,1 +1,0 @@
-<?php // PURPOSE: Reports on artwork submissions and exhibition participation. ?>

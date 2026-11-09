@@ -1,1 +1,0 @@
-<?php // PURPOSE: Admin CRUD for categories such as painting, sketching, photography, and handcraft. ?>

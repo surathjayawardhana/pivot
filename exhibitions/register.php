@@ -1,1 +1,0 @@
-<?php // PURPOSE: Registers an authenticated student to participate in an exhibition. ?>

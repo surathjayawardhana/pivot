@@ -1,1 +1,0 @@
-<?php // PURPOSE: Navigation links for students and public visitors. ?>

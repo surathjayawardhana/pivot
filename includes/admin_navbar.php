@@ -1,1 +1,0 @@
-<?php // PURPOSE: Navigation links shown inside the admin interface. ?>

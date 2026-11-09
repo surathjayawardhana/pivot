@@ -1,3 +1,0 @@
-# PURPOSE: Prevent direct HTTP access to SQL schema files.
-Options -Indexes
-Require all denied

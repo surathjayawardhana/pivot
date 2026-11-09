@@ -1,1 +1,0 @@
-<?php // PURPOSE: Registers student accounts after server-side validation and secure password hashing. ?>

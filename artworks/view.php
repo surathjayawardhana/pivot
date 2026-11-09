@@ -1,1 +1,0 @@
-<?php // PURPOSE: Shows one approved artwork and its details, likes, comments, and rating. ?>

@@ -1,1 +1,0 @@
-<?php // PURPOSE: Admin landing page with useful counts and shortcuts; restrict to admins. ?>

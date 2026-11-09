@@ -1,1 +1,0 @@
-<?php // PURPOSE: Lists available exhibitions and creative showcases. ?>

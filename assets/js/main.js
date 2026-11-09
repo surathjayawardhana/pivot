@@ -1,1 +1,0 @@
-// PURPOSE: Shared JavaScript interactions used across the website.

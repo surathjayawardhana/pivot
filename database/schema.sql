@@ -1,1 +1,0 @@
--- PURPOSE: SQL schema for users, categories, artworks, likes, comments, ratings, follows, exhibitions, and exhibition registrations.

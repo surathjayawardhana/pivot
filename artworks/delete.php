@@ -1,1 +1,0 @@
-<?php // PURPOSE: Handles an authorized artwork deletion after validating the request. ?>

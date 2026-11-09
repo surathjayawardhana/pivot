@@ -1,1 +1,0 @@
-// PURPOSE: Gallery interactions such as filters or artwork-card behavior.
