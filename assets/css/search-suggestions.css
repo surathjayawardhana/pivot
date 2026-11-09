@@ -1,0 +1,657 @@
+
+/* =========================================================
+   NSBM ARTCRAFT — SEARCH SUGGESTIONS
+   Shared autocomplete dropdown
+
+   Public: Homepage artwork/category search
+   Admin: Artwork, user and participation report searches
+
+   Design: ArtCraft shared visual system
+   Colours: Blue / Green / White / Soft Grey
+========================================================= */
+
+
+/* =========================================================
+   DESIGN TOKENS
+========================================================= */
+
+.ss-popover {
+    --ss-white: #FFFFFF;
+
+    --ss-blue: #0D6BB6;
+    --ss-blue-dark: #064878;
+    --ss-blue-soft: #F0F6FB;
+
+    --ss-green: #3BA73C;
+    --ss-green-soft: #F0F7F0;
+
+    --ss-ink: #1D1D1F;
+    --ss-gray-700: #48484A;
+    --ss-gray-500: #858C95;
+    --ss-gray-400: #AEB4BC;
+    --ss-gray-300: #D5D9DE;
+    --ss-gray-200: #DDE1E6;
+    --ss-gray-100: #F3F4F6;
+
+    --ss-red: #C62828;
+    --ss-red-soft: #FEF2F2;
+
+    --ss-radius: 12px;
+    --ss-item-radius: 8px;
+
+    --ss-font-size: 13px;
+
+    position: fixed;
+    z-index: 10000;
+
+    top: 0;
+    left: 0;
+
+    display: block;
+
+    box-sizing: border-box;
+
+    width: auto;
+    max-width: calc(100vw - 16px);
+
+    margin: 0;
+    padding: 5px;
+
+    max-height: min(320px, calc(100vh - 24px));
+    max-height: min(320px, calc(100dvh - 24px));
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--ss-gray-300) transparent;
+
+    background: var(--ss-white);
+    color: var(--ss-ink);
+
+    border: 1px solid var(--ss-gray-200);
+    border-radius: var(--ss-radius);
+
+    box-shadow:
+        0 12px 32px rgba(29, 29, 31, 0.09),
+        0 2px 6px rgba(29, 29, 31, 0.035);
+
+    font-family:
+        Roboto,
+        "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    font-size: var(--ss-font-size);
+    line-height: 1.45;
+
+    text-align: left;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Respect the JS-controlled visibility state. */
+
+.ss-popover[hidden] {
+    display: none !important;
+}
+
+
+/* Consistent box sizing */
+
+.ss-popover *,
+.ss-popover *::before,
+.ss-popover *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   VARIANTS
+========================================================= */
+
+/* Homepage */
+
+.ss-popover--public {
+    --ss-radius: 12px;
+    --ss-font-size: 13px;
+}
+
+/* Administration */
+
+.ss-popover--admin {
+    --ss-radius: 8px;
+    --ss-font-size: 13px;
+    --ss-item-radius: 6px;
+}
+
+
+/* Dropdown opening above its input */
+
+.ss-popover--above {
+    box-shadow:
+        0 -12px 32px rgba(29, 29, 31, 0.09),
+        0 -2px 6px rgba(29, 29, 31, 0.035);
+}
+
+
+/* =========================================================
+   SUGGESTION LIST
+========================================================= */
+
+.ss-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    width: 100%;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   SUGGESTION ITEM
+========================================================= */
+
+.ss-item {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+
+    padding: 8px 11px;
+
+    border: 0;
+    border-radius: var(--ss-item-radius);
+
+    background: transparent;
+    color: var(--ss-ink);
+
+    font: inherit;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+
+/* Homepage suggestions have room for thumbnails */
+
+.ss-popover--public .ss-item {
+    min-height: 54px;
+    gap: 12px;
+}
+
+
+/* Hover only on devices that actually support hover */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .ss-item:hover {
+        background: var(--ss-gray-100);
+    }
+
+}
+
+
+/* Keyboard-selected suggestion */
+
+.ss-item--active {
+    background: var(--ss-blue-soft);
+}
+
+
+/* Small blue indicator for the active option */
+
+.ss-item--active::before {
+    content: "";
+
+    position: absolute;
+
+    top: 9px;
+    bottom: 9px;
+    left: 0;
+
+    width: 3px;
+
+    border-radius: 0 4px 4px 0;
+
+    background: var(--ss-blue);
+}
+
+
+/* Better focus visibility */
+
+.ss-item:focus-visible {
+    outline: 2px solid var(--ss-blue);
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   SUGGESTION TEXT
+========================================================= */
+
+.ss-text {
+    display: block;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    overflow: hidden;
+}
+
+
+/* Main suggestion label */
+
+.ss-label {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--ss-ink);
+
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* Supporting information */
+
+.ss-meta {
+    display: block;
+
+    margin-top: 2px;
+
+    overflow: hidden;
+
+    color: var(--ss-gray-500);
+
+    font-size: 0.86em;
+    font-weight: 400;
+    line-height: 1.35;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* Active state text */
+
+.ss-item--active .ss-label {
+    color: var(--ss-blue-dark);
+}
+
+
+/* =========================================================
+   MATCHED SEARCH TEXT
+========================================================= */
+
+.ss-popover mark {
+    padding: 0;
+
+    background: transparent;
+
+    color: var(--ss-blue);
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   HOMEPAGE THUMBNAILS
+========================================================= */
+
+.ss-thumb {
+    display: block;
+
+    flex: 0 0 auto;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 8px;
+
+    background: var(--ss-gray-100);
+
+    object-fit: cover;
+}
+
+
+/* Category fallback icon */
+
+.ss-thumb--category {
+    background-color: var(--ss-gray-100);
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px 18px;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D6BB6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z'/%3E%3Ccircle cx='7.5' cy='7.5' r='1.2'/%3E%3C/svg%3E");
+}
+
+
+/* =========================================================
+   ADMIN STATUS TAGS
+========================================================= */
+
+.ss-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    min-height: 22px;
+
+    padding: 2px 8px;
+
+    border: 1px solid var(--ss-gray-200);
+    border-radius: 999px;
+
+    background: var(--ss-gray-100);
+    color: var(--ss-gray-700);
+
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    white-space: nowrap;
+}
+
+
+/* Positive status */
+
+.ss-tag--ok {
+    border-color: transparent;
+
+    background: var(--ss-green-soft);
+    color: #287B2A;
+}
+
+
+/* Negative status */
+
+.ss-tag--bad {
+    border-color: transparent;
+
+    background: var(--ss-red-soft);
+    color: var(--ss-red);
+}
+
+
+/* =========================================================
+   LOADING / EMPTY / ERROR STATES
+========================================================= */
+
+.ss-note {
+    display: block;
+
+    margin: 0;
+
+    padding: 14px 12px;
+
+    color: var(--ss-gray-500);
+
+    font-size: 0.95em;
+    font-weight: 400;
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+.ss-note--error {
+    color: var(--ss-red);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.ss-popover::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ss-popover::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ss-popover::-webkit-scrollbar-thumb {
+    background: var(--ss-gray-300);
+    border: 1px solid var(--ss-white);
+    border-radius: 999px;
+}
+
+.ss-popover::-webkit-scrollbar-thumb:hover {
+    background: var(--ss-gray-400);
+}
+
+
+/* =========================================================
+   SCREEN READER ONLY
+========================================================= */
+
+.ss-sr {
+    position: absolute !important;
+
+    width: 1px !important;
+    height: 1px !important;
+
+    padding: 0 !important;
+    margin: -1px !important;
+
+    overflow: hidden !important;
+
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+
+    white-space: nowrap !important;
+
+    border: 0 !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .ss-popover {
+        max-height: min(300px, calc(100dvh - 20px));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+    .ss-popover {
+        --ss-font-size: 14px;
+
+        max-width: calc(100vw - 16px);
+
+        max-height: min(280px, calc(100dvh - 16px));
+
+        padding: 5px;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 8px 24px rgba(29, 29, 31, 0.11),
+            0 2px 5px rgba(29, 29, 31, 0.04);
+    }
+
+
+    .ss-popover--admin {
+        border-radius: 8px;
+    }
+
+
+    /* Comfortable touch targets */
+
+    .ss-item {
+        min-height: 48px;
+
+        gap: 10px;
+
+        padding: 10px 11px;
+    }
+
+
+    .ss-popover--public .ss-item {
+        min-height: 58px;
+    }
+
+
+    /* Slightly larger artwork thumbnails */
+
+    .ss-thumb {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 8px;
+    }
+
+
+    /* Keep text readable without expanding the dropdown */
+
+    .ss-label {
+        font-size: 14px;
+    }
+
+    .ss-meta {
+        font-size: 12px;
+    }
+
+
+    /* Keep tags compact */
+
+    .ss-tag {
+        min-height: 21px;
+        padding-inline: 7px;
+        font-size: 10px;
+    }
+
+
+    .ss-note {
+        padding: 15px 10px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .ss-popover {
+        max-width: calc(100vw - 12px);
+        padding: 4px;
+    }
+
+
+    .ss-item {
+        gap: 8px;
+        padding-inline: 8px;
+    }
+
+
+    .ss-popover--public .ss-item {
+        min-height: 54px;
+    }
+
+
+    .ss-thumb {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .ss-tag {
+        padding-inline: 6px;
+        font-size: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ss-popover,
+    .ss-item {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   SUBTLE APPEARANCE
+========================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    .ss-popover {
+        animation: ss-popover-in 120ms ease-out;
+        transform-origin: top center;
+    }
+
+    .ss-popover--above {
+        transform-origin: bottom center;
+    }
+
+    @keyframes ss-popover-in {
+
+        from {
+            opacity: 0;
+            transform: translateY(-3px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+}
