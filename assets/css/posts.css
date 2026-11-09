@@ -1,0 +1,491 @@
+/* =========================================================
+   PIVOT — ARTWORK GALLERY
+   Clean, minimal gallery design
+========================================================= */
+
+/* ---- Design tokens ---- */
+
+.pivot-feed {
+    --p-white: #FFFFFF;
+    --p-blue: #0D6BB6;
+    --p-green: #3BA73C;
+
+    --p-gray-100: #F5F6F7;
+    --p-gray-200: #E8EAED;
+    --p-gray-300: #D5D9DE;
+    --p-gray-500: #858C95;
+    --p-gray-700: #515862;
+
+    --p-ink: #191C20;
+
+    --p-radius-card: 14px;
+    --p-radius-small: 999px;
+
+    --p-gutter: 32px;
+
+    background: var(--p-white);
+    color: var(--p-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+}
+
+.pivot-feed *,
+.pivot-feed *::before,
+.pivot-feed *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   GALLERY CONTAINER
+========================================================= */
+
+.pivot-feed__inner {
+    width: min(1160px, 100%);
+    margin: 0 auto;
+    padding: 40px var(--p-gutter) 64px;
+}
+
+.pivot-feed__summary {
+    margin: 0 0 28px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--p-gray-500);
+}
+
+.pivot-feed__clear,
+.pivot-feed__empty-link {
+    color: var(--p-blue);
+    text-decoration: none;
+}
+
+.pivot-feed__clear {
+    margin-left: 8px;
+}
+
+.pivot-feed__clear:hover,
+.pivot-feed__empty-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   GALLERY GRID
+========================================================= */
+
+/* A deliberate three-column layout prevents desktop cards
+   from becoming cramped or making the gallery feel busy. */
+
+.pivot-feed__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   ARTWORK CARD
+========================================================= */
+
+.art-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    background: var(--p-white);
+    border: 1px solid var(--p-gray-200);
+    border-radius: var(--p-radius-card);
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.art-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--p-gray-300);
+    box-shadow: 0 8px 24px rgba(20, 30, 45, 0.055);
+}
+
+
+/* =========================================================
+   ARTWORK IMAGE
+========================================================= */
+
+.art-card__media {
+    aspect-ratio: 4 / 3;
+    background: var(--p-gray-100);
+    overflow: hidden;
+}
+
+.art-card__media-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.art-card__media-link:focus-visible {
+    outline: 3px solid var(--p-blue);
+    outline-offset: -4px;
+}
+
+.art-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 0.35s ease;
+}
+
+.art-card:hover .art-card__image {
+    transform: scale(1.025);
+}
+
+.art-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    font-size: 0.85rem;
+    color: var(--p-gray-500);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.art-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px;
+}
+
+
+/* ---- Category ---- */
+
+.art-card__category {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+
+    margin: 0 0 10px;
+    padding: 4px 10px;
+
+    background: #F0F6FB;
+    border-radius: var(--p-radius-small);
+
+    color: #55758F;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+
+    text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+a.art-card__category {
+    cursor: pointer;
+}
+
+a.art-card__category:hover {
+    color: var(--p-blue);
+    background: #E7F1F9;
+    text-decoration: none;
+}
+
+
+/* ---- Title ---- */
+
+.art-card__title {
+    margin: 0;
+
+    color: var(--p-ink);
+    font-size: 1.025rem;
+    font-weight: 600;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+.art-card__title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.art-card__title a:hover {
+    color: var(--p-blue);
+}
+
+
+/* ---- Description ---- */
+
+.art-card__description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+
+    margin: 7px 0 0;
+    overflow: hidden;
+
+    color: var(--p-gray-700);
+    font-size: 0.875rem;
+    line-height: 1.55;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.art-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+
+/* ---- Artist information ---- */
+
+.art-card__artist {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.art-card__avatar-link {
+    display: inline-flex;
+    flex: 0 0 auto;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.art-card__avatar-link:focus-visible {
+    outline: 2px solid var(--p-blue);
+    outline-offset: 3px;
+}
+
+.art-card__avatar {
+    display: block;
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--p-gray-100);
+
+    transition: opacity 0.2s ease;
+}
+
+.art-card__avatar-link:hover .art-card__avatar {
+    opacity: 0.75;
+}
+
+.art-card__avatar--initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--p-gray-700);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+
+.art-card__artist-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.art-card__artist-name {
+    display: inline-block;
+
+    overflow: hidden;
+    color: var(--p-gray-700);
+    font-size: 0.82rem;
+    font-weight: 550;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.art-card__artist-text a.art-card__artist-name {
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.art-card__artist-text a.art-card__artist-name:hover {
+    color: var(--p-blue);
+}
+
+.art-card__date {
+    margin-top: 2px;
+
+    color: var(--p-gray-500);
+    font-size: 0.73rem;
+}
+
+
+/* ---- Likes ---- */
+
+.art-card__likes {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 5px;
+
+    color: var(--p-gray-500);
+    font-size: 0.82rem;
+}
+
+.art-card__likes svg {
+    color: var(--p-green);
+}
+
+
+/* =========================================================
+   EMPTY STATES
+========================================================= */
+
+.pivot-feed__empty {
+    max-width: 420px;
+    margin: 72px auto;
+    padding: 0 16px;
+    text-align: center;
+}
+
+.pivot-feed__empty-title {
+    margin: 0 0 9px;
+
+    color: var(--p-ink);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.pivot-feed__empty-text {
+    margin: 0 0 16px;
+
+    color: var(--p-gray-700);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.pivot-feed__empty-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+/* Tablet */
+
+@media (max-width: 900px) {
+    .pivot-feed {
+        --p-gutter: 24px;
+    }
+
+    .pivot-feed__inner {
+        padding-top: 32px;
+    }
+
+    .pivot-feed__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+}
+
+
+/* Mobile — retain the original flexible grid behaviour */
+
+@media (max-width: 640px) {
+    .pivot-feed {
+        --p-gutter: 16px;
+    }
+
+    .pivot-feed__inner {
+        padding-top: 24px;
+        padding-bottom: 48px;
+    }
+
+    .pivot-feed__summary {
+        margin-bottom: 20px;
+    }
+
+    .pivot-feed__grid {
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(min(100%, 250px), 1fr)
+        );
+        gap: 16px;
+    }
+
+    .art-card__body {
+        padding: 16px;
+    }
+
+    .art-card__footer {
+        padding-top: 16px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY & BROWSER ENHANCEMENTS
+========================================================= */
+
+/* Continuous-curvature corners where supported */
+
+@supports (corner-shape: squircle) {
+    .art-card,
+    .art-card__category {
+        corner-shape: squircle;
+    }
+}
+
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .art-card,
+    .art-card__image,
+    .art-card__category,
+    .art-card__title a,
+    .art-card__artist-name,
+    .art-card__avatar {
+        transition: none;
+    }
+
+    .art-card:hover {
+        transform: none;
+    }
+
+    .art-card:hover .art-card__image {
+        transform: none;
+    }
+}

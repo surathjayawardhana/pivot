@@ -1,0 +1,88 @@
+/* PIVOT - Minimal raspberry like button */
+
+.like-form {
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 4px;
+
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1;
+
+    color: #8B929C;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.like-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    transition: fill .15s ease, transform .2s ease;
+}
+
+/* Hover */
+.like-btn:hover {
+    color: #D94862;
+}
+
+/* Keyboard focus */
+.like-btn:focus-visible {
+    outline: 2px solid #E85D75;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* Liked */
+.like-btn.is-liked {
+    color: #E85D75;
+    background: transparent;
+    border: none;
+}
+
+.like-btn.is-liked svg {
+    fill: #E85D75;
+    stroke: #E85D75;
+}
+
+.like-btn[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+.like-btn.is-pop svg {
+    animation: like-pop .3s ease;
+}
+
+@keyframes like-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Artwork page spacing */
+.artwork-view__likes {
+    margin: 16px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .like-btn,
+    .like-btn svg {
+        transition: none;
+    }
+
+    .like-btn.is-pop svg {
+        animation: none;
+    }
+}
