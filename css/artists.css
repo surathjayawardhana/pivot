@@ -1,0 +1,601 @@
+/* ==========================================================================
+   Artist directory (artist.php)
+   Everything is scoped under .artists-page, so nothing else on the site changes.
+   Palette: white #FFFFFF, blue #0D6BB6, green #3BA73C + quiet neutrals.
+   ========================================================================== */
+
+.artists-page {
+    /* Palette */
+    --ar-white: #FFFFFF;
+    --ar-blue: #0D6BB6;
+    --ar-blue-dark: #0A5A9A;        /* hover: slightly darker than #0D6BB6 (same value profile.css uses) */
+    --ar-green: #3BA73C;            /* pressed / selected */
+    --ar-green-dark: #2F8B30;       /* hover on a selected (green) button */
+
+    /* Neutrals (same values as profile.css, so the pages sit together) */
+    --ar-text: #1E2933;
+    --ar-muted: #5B6671;
+    --ar-border: #DCE1E7;
+    --ar-bg: #F5F7F9;
+    --ar-soft: #ECEFF3;
+
+    /* Named corner tokens.
+       B2 = button corner  (14px, the "B2" value already defined in post.css)
+       G2 = large surfaces (20px, cards; matches --pf-radius-lg in profile.css)
+       G1 = small surfaces (12px, artwork tiles, notices)
+       Change a value here and every use on the page follows. */
+    --corner-b2: 14px;
+    --corner-g2: 20px;
+    --corner-g1: 12px;
+
+    /* Typography */
+    --ar-font-heading: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+    --ar-font-body: Roboto, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    padding: 2rem 1rem 4.5rem;
+    background: var(--ar-bg);
+    color: var(--ar-text);
+    font-family: var(--ar-font-body);
+    line-height: 1.5;
+}
+
+.artists-page *,
+.artists-page *::before,
+.artists-page *::after {
+    box-sizing: border-box;
+}
+
+.artists-container {
+    width: 100%;
+    max-width: 70rem;
+    margin-inline: auto;
+}
+
+/* Visually hidden, still read by screen readers */
+.artists-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Page intro ---------- */
+.artists-intro {
+    margin-bottom: 1.5rem;
+}
+
+.artists-title {
+    margin: 0 0 0.25rem;
+    font-family: var(--ar-font-heading);
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.375rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.artists-lead {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--ar-muted);
+    font-size: 1rem;
+}
+
+.artists-notice {
+    margin: 0 0 1.25rem;
+    padding: 0.875rem 1.125rem;
+    border: 1px solid #BCD8EE;
+    border-radius: var(--corner-g1);
+    background: #EAF3FA;
+    color: var(--ar-blue-dark);
+    font-size: 0.9375rem;
+}
+
+.artists-notice a {
+    color: inherit;
+    font-weight: 700;
+}
+
+/* ---------- Buttons (one system for every action on the page) ---------- */
+.artists-page .artists-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0 1.375rem;
+    border: 0;
+    border-radius: var(--corner-b2);
+    background: var(--ar-blue);
+    color: var(--ar-white);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.artists-page .artists-btn--block {
+    display: flex;
+    width: 100%;
+}
+
+.artists-page .artists-btn:hover {
+    background: var(--ar-blue-dark);
+    color: var(--ar-white);
+}
+
+.artists-page .artists-btn:active {
+    background: var(--ar-green);
+    color: var(--ar-white);
+}
+
+/* Selected: the viewer follows this artist */
+.artists-page .artists-btn.is-following {
+    background: var(--ar-green);
+}
+
+.artists-page .artists-btn.is-following:hover {
+    background: var(--ar-green-dark);
+}
+
+.artists-page .artists-btn.is-following:active {
+    background: var(--ar-green);
+}
+
+/* Disabled and busy */
+.artists-page .artists-btn:disabled:not([aria-busy="true"]) {
+    background: var(--ar-border);
+    color: #6B7682;
+    cursor: not-allowed;
+}
+
+.artists-page .artists-btn[aria-busy="true"] {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+/* Keyboard focus */
+.artists-page a:focus-visible,
+.artists-page button:focus-visible,
+.artists-page [tabindex="0"]:focus-visible {
+    outline: 3px solid var(--ar-blue);
+    outline-offset: 2px;
+}
+
+/* Follow button: "Following" turns into "Unfollow" on hover (pointer devices only) */
+.follow-btn__hover {
+    display: none;
+}
+
+@media (hover: hover) {
+    .follow-btn.is-following:hover .follow-btn__rest,
+    .follow-btn.is-following:focus-visible .follow-btn__rest {
+        display: none;
+    }
+
+    .follow-btn.is-following:hover .follow-btn__hover,
+    .follow-btn.is-following:focus-visible .follow-btn__hover {
+        display: inline;
+    }
+}
+
+/* ---------- Messages: empty list and failure ---------- */
+.artists-state {
+    padding: 3.5rem 1.5rem;
+    border: 1px solid var(--ar-border);
+    border-radius: var(--corner-g2);
+    background: var(--ar-white);
+    text-align: center;
+}
+
+.artists-state h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--ar-font-heading);
+    font-size: 1.375rem;
+}
+
+.artists-state p {
+    max-width: 30rem;
+    margin: 0 auto 1.25rem;
+    color: var(--ar-muted);
+}
+
+.artists-state p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Artist list and card ---------- */
+.artist-list {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.artist-list > li {
+    min-width: 0;
+}
+
+.artist-card {
+    display: grid;
+    grid-template-columns: minmax(15rem, 19rem) minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--ar-border);
+    border-radius: var(--corner-g2);
+    background: var(--ar-white);
+    box-shadow: 0 1px 3px rgba(30, 41, 51, 0.06);
+}
+
+/* Left: who the artist is */
+.artist-card__profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;     /* avatar, name and button stay together beside the gallery */
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.artist-card__head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.artist-card__avatar-link {
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.artist-card__avatar {
+    display: block;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    background: var(--ar-soft);
+    box-shadow: 0 0 0 1px var(--ar-border);
+    object-fit: cover;
+}
+
+.artist-card__identity {
+    min-width: 0;
+}
+
+.artist-card__name {
+    margin: 0;
+    font-family: var(--ar-font-heading);
+    font-size: 1.3125rem;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.artist-card__name a {
+    color: var(--ar-text);
+    text-decoration: none;
+}
+
+.artist-card__name a:hover {
+    color: var(--ar-blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.artist-card__username {
+    margin: 0.125rem 0 0;
+    color: var(--ar-muted);
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+}
+
+.artist-card__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 0.875rem;
+    margin: 0.5rem 0 0;
+    color: var(--ar-muted);
+    font-size: 0.8125rem;
+}
+
+.artist-card__stats strong {
+    color: var(--ar-text);
+    font-weight: 700;
+}
+
+.follow-form {
+    margin: 0;
+}
+
+/* Right: artwork previews */
+.artist-card__works {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: var(--corner-g1);
+    background: var(--ar-bg);
+}
+
+.artist-card__works > .artist-gallery {
+    flex: 1;
+}
+
+.artist-empty {
+    display: grid;
+    flex: 1;
+    place-items: center;
+    min-height: 9rem;
+    margin: 0;
+    border: 1px dashed #C3CBD3;
+    border-radius: var(--corner-g1);
+    color: var(--ar-muted);
+    text-align: center;
+}
+
+/* Horizontal gallery: scrolls on its own, never the page */
+.artist-gallery {
+    min-width: 0;
+    max-width: 100%;
+    padding-bottom: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-color: #A9B4BF transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.artist-gallery__track {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Two tiles fit, with a sliver of the third showing that there is more */
+.artwork-tile {
+    flex: 0 0 calc((100% - 1rem) / 2.12);
+    min-width: 10rem;
+    scroll-snap-align: start;
+}
+
+.artwork-tile__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--ar-border);
+    border-radius: var(--corner-g1);
+    background: var(--ar-white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.artwork-tile__link:hover {
+    border-color: var(--ar-blue);
+    box-shadow: 0 4px 12px rgba(30, 41, 51, 0.1);
+}
+
+.artwork-tile__media {
+    position: relative;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--ar-soft);
+    color: #98A2AD;
+}
+
+/* Out of the normal flow, so the picture can never grow the frame:
+   every tile keeps the same 4:3 shape, whatever the artwork's own proportions. */
+.artwork-tile__media img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* fills the frame, crops instead of stretching */
+}
+
+.artwork-tile__placeholder {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.artwork-tile__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+    padding: 0.625rem 0.875rem 0.75rem;
+}
+
+.artwork-tile__title {
+    overflow: hidden;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.artwork-tile__meta {
+    overflow: hidden;
+    color: var(--ar-muted);
+    font-size: 0.8125rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.artwork-tile--more {
+    flex-basis: calc((100% - 1rem) / 3.2);
+}
+
+.artwork-tile--more .artwork-tile__link {
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-style: dashed;
+    border-color: #A9C8E3;
+    background: transparent;
+}
+
+.artwork-tile__more-text {
+    color: var(--ar-blue);
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Scroll arrows: appear only when the gallery overflows, hidden on touch screens */
+.artists-page .gallery-arrow {
+    position: absolute;
+    top: calc(50% - 1.5rem);
+    z-index: 1;
+    width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(30, 41, 51, 0.25);
+}
+
+.artists-page .gallery-arrow[hidden] {
+    display: none;
+}
+
+.gallery-arrow svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.gallery-arrow--prev {
+    left: -0.75rem;
+}
+
+.gallery-arrow--next {
+    right: -0.75rem;
+}
+
+@media (hover: none) {
+    .artists-page .gallery-arrow {
+        display: none;
+    }
+}
+
+/* ---------- Pager / load more ---------- */
+.artists-pager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.875rem;
+    margin-top: 2rem;
+}
+
+.artists-pager__count {
+    margin: 0;
+    color: var(--ar-muted);
+    font-size: 0.9375rem;
+}
+
+.artists-pager__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+/* Smoother corners where supported (the same refinement the other pages use) */
+@supports (corner-shape: squircle) {
+    .artist-card,
+    .artist-card__works,
+    .artwork-tile__link,
+    .artist-empty,
+    .artists-state,
+    .artists-notice,
+    .artists-page .artists-btn:not(.gallery-arrow) {
+        corner-shape: squircle;
+    }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 64rem) {
+    .artist-card {
+        grid-template-columns: minmax(13.5rem, 16rem) minmax(0, 1fr);
+        gap: 1.125rem;
+        padding: 1.125rem;
+    }
+
+    .artist-card__avatar {
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+
+    .artist-card__name {
+        font-size: 1.1875rem;
+    }
+
+    .artist-card__works {
+        padding: 0.75rem;
+    }
+
+    .artwork-tile {
+        flex-basis: calc((100% - 1rem) / 2.12);
+        min-width: 9rem;
+    }
+}
+
+/* ---------- Mobile: profile on top, gallery below ---------- */
+@media (max-width: 47.99rem) {
+    .artists-page {
+        padding: 1.25rem 0.75rem 3rem;
+    }
+
+    .artist-card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .artist-card__profile {
+        gap: 1rem;
+    }
+
+    .artist-card__works {
+        padding: 0.625rem;
+    }
+
+    .artwork-tile {
+        flex-basis: 72%;
+        min-width: 0;
+    }
+
+    .artwork-tile--more {
+        flex-basis: 46%;
+    }
+
+    .artists-pager__links .artists-btn {
+        width: 100%;
+    }
+
+    .artists-pager__links {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .artists-page .artists-btn,
+    .artwork-tile__link {
+        transition: none;
+    }
+}

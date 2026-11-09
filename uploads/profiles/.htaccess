@@ -1,0 +1,4 @@
+# Profile pictures are plain images. Never let the web server run anything in here.
+<FilesMatch "(?i)\.(php|phtml|phar|php[0-9]|pl|cgi|sh)$">
+    Require all denied
+</FilesMatch>
