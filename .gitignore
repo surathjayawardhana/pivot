@@ -1,37 +1,218 @@
-# Local environment and secrets
+# =============================================================
+# NSBM ArtCraft — PHP / MySQL / WAMP
+# Team-safe Git ignore rules
+# =============================================================
+
+# -------------------------------------------------------------
+# 1. Secrets and machine-specific configuration
+# -------------------------------------------------------------
+# Environment files: commit only safe example templates.
 .env
 .env.*
 !.env.example
 
-# Composer dependencies (if using Composer)
-/vendor/
+# Local PHP configuration / credentials.
+*.local.php
+*.local.*
+config.local.*
+secrets.php
+secrets.*
 
-# Node.js dependencies and build output (if used for frontend tooling)
-/node_modules/
-/dist/
-/build/
+# Common credential and private-key files.
+auth.json
+credentials*.json
+*-service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
 
-# Logs and temporary files
-*.log
-/logs/
-/tmp/
-/cache/
-/.cache/
+# Local certificates and server-auth files.
+*.crt
+.htpasswd
 
-# Test and coverage output
-/coverage/
-.phpunit.cache/
+# Explicit local database configuration paths used by this project.
+/includes/db.local.php
+/includes/config.local.php
+/config.local.php
 
-# IDE/editor files
-/.idea/
-*.swp
-*.swo
+# -------------------------------------------------------------
+# 2. User-generated uploads
+# -------------------------------------------------------------
+# Never commit real users' artwork, profile photos, or uploaded
+# event images. Keep only placeholders, upload-protection rules,
+# and the default avatar in version control.
+/uploads/artworks/**
+!/uploads/artworks/.gitkeep
+!/uploads/artworks/.htaccess
 
-# Operating system files
-.DS_Store
-Thumbs.db
-desktop.ini
+/uploads/events/**
+!/uploads/events/.gitkeep
+!/uploads/events/.htaccess
 
-# Local database files (do not ignore shared .sql schema/seed files)
+/uploads/profiles/**
+!/uploads/profiles/.gitkeep
+!/uploads/profiles/.htaccess
+!/uploads/profiles/default-avatar.png
+
+/uploads/tmp/**
+!/uploads/tmp/.gitkeep
+!/uploads/tmp/.htaccess
+
+# -------------------------------------------------------------
+# 3. Database files, dumps, and backups
+# -------------------------------------------------------------
+# Keep database schema/seed files and migration scripts trackable.
+# Ignore compressed exports, local copies, and backup artefacts.
+*.sql.gz
+*.sql.zip
+*.sql.bak
+*.dump
 *.sqlite
 *.sqlite3
+*.db
+
+/database/backup/
+/database/backups/
+/database/*backup*/
+/database/*backup*.sql
+/database/*.local.sql
+/database/*.private.sql
+
+# NOTE: database/artcraft.sql is intentionally NOT ignored.
+# Commit it only after confirming it contains synthetic demo data,
+# not real student accounts, private information, or credentials.
+
+# -------------------------------------------------------------
+# 4. Logs, sessions, caches, and temporary files
+# -------------------------------------------------------------
+*.log
+*.log.*
+error_log
+php_errors.log
+
+/logs/
+/cache/
+/tmp/
+/temp/
+/sessions/
+
+*.tmp
+*.temp
+*.cache
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+*.pid
+*.sock
+*.stackdump
+*~
+sess_*
+
+# -------------------------------------------------------------
+# 5. Dependencies and generated build output
+# -------------------------------------------------------------
+/vendor/
+/node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+.pnpm-store/
+
+/dist/
+/build/
+.sass-cache/
+*.css.map
+*.js.map
+
+# Composer manifests and lockfiles should normally be committed.
+# In particular, do NOT ignore composer.lock for an application.
+
+# -------------------------------------------------------------
+# 6. Test, coverage, and tool-generated artefacts
+# -------------------------------------------------------------
+/coverage/
+/.nyc_output/
+/reports/tmp/
+
+.phpunit.result.cache
+.phpunit.cache/
+.php-cs-fixer.cache
+.phpcs-cache
+
+# -------------------------------------------------------------
+# 7. Local WAMP / XAMPP / server files
+# -------------------------------------------------------------
+/wamp/
+/xampp/
+/phpmyadmin/
+
+# -------------------------------------------------------------
+# 8. Editors and IDEs
+# -------------------------------------------------------------
+.idea/
+.fleet/
+.history/
+.nbproject/
+nbproject/
+.settings/
+.project
+.buildpath
+
+# Keep shared VS Code recommendations and the example settings file.
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/settings.json.example
+!/.vscode/launch.json.example
+
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# -------------------------------------------------------------
+# 9. Operating-system generated files
+# -------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+.directory
+.Trash-*
+.fuse_hidden*
+.nfs*
+
+# -------------------------------------------------------------
+# 10. Archives and accidental exports
+# -------------------------------------------------------------
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# Generated exports (keep intentional source fixtures elsewhere).
+/exports/generated/
+/reports/generated/
