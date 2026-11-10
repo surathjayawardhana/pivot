@@ -1,0 +1,728 @@
+
+/* ================================================================
+   ARTCRAFT — ARTWORK SUBMISSION REPORT
+   Minimalist responsive reporting design.
+
+   Palette: White / Black / #3BA73C / Red / Gray
+   G1: 8px | G2: 20px
+   Fonts: Helvetica Neue / Helvetica / Roboto
+
+   Desktop: Traditional report table.
+   Mobile: Stacked submission records.
+
+   Scoped to .sr-report.
+   ================================================================ */
+
+
+/* ================================================================
+   01. DESIGN TOKENS & BASE
+   ================================================================ */
+
+.sr-report {
+    --sr-white: #FFFFFF;
+    --sr-black: #000000;
+
+    --sr-green: #3BA73C;
+    --sr-green-soft: #F1F8F1;
+
+    --sr-red: #E53935;
+    --sr-red-soft: #FEF3F2;
+
+    --sr-gray-900: #1D1D1F;
+    --sr-gray-700: #48484A;
+    --sr-gray-500: #86868B;
+    --sr-gray-300: #D2D2D7;
+    --sr-gray-200: #E8E8ED;
+    --sr-gray-100: #F5F5F7;
+
+    --sr-g1: 8px;
+    --sr-g2: 20px;
+
+    --sr-font-heading: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    --sr-font-body: Roboto, Helvetica, "Helvetica Neue", Arial, sans-serif;
+
+    --sr-transition: 160ms ease;
+
+    box-sizing: border-box;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 32px 24px;
+
+    background: var(--sr-white);
+    color: var(--sr-gray-900);
+
+    font-family: var(--sr-font-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sr-report *,
+.sr-report *::before,
+.sr-report *::after {
+    box-sizing: border-box;
+}
+
+
+/* ================================================================
+   02. HEADER
+   ================================================================ */
+
+.sr-report .sr-report__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 24px;
+
+    margin-bottom: 24px;
+}
+
+.sr-report .sr-report__title {
+    margin: 0;
+
+    color: var(--sr-black);
+
+    font-family: var(--sr-font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.sr-report .sr-report__range {
+    margin: 7px 0 0;
+
+    color: var(--sr-gray-500);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.sr-report .sr-report__range strong {
+    color: var(--sr-gray-900);
+    font-weight: 500;
+}
+
+
+/* ================================================================
+   03. REPORT CONTROLS
+   ================================================================ */
+
+.sr-report .sr-report__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Period selector */
+
+.sr-report .sr-report__periods {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+
+    padding: 0;
+    background: transparent;
+}
+
+.sr-report .sr-report__period {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 34px;
+    padding: 0 11px;
+
+    border: 1px solid transparent;
+    border-radius: var(--sr-g1);
+
+    background: transparent;
+    color: var(--sr-gray-500);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        background-color var(--sr-transition),
+        color var(--sr-transition),
+        border-color var(--sr-transition);
+}
+
+.sr-report .sr-report__period:hover {
+    background: var(--sr-gray-100);
+    color: var(--sr-black);
+}
+
+.sr-report .sr-report__period[aria-current="true"] {
+    border-color: var(--sr-black);
+    background: var(--sr-black);
+    color: var(--sr-white);
+    font-weight: 500;
+}
+
+.sr-report .sr-report__period[aria-current="true"]:hover {
+    background: var(--sr-gray-900);
+    color: var(--sr-white);
+}
+
+/* Markdown download */
+
+.sr-report .sr-report__download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 36px;
+    padding: 0 14px;
+
+    border: 1px solid var(--sr-black);
+    border-radius: var(--sr-g1);
+
+    background: var(--sr-black);
+    color: var(--sr-white);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        background-color var(--sr-transition),
+        border-color var(--sr-transition);
+}
+
+.sr-report .sr-report__download:hover {
+    border-color: var(--sr-gray-700);
+    background: var(--sr-gray-700);
+}
+
+
+/* ================================================================
+   04. SUMMARY
+   ================================================================ */
+
+.sr-report .sr-report__total {
+    margin: 0 0 12px;
+
+    color: var(--sr-gray-500);
+    font-size: 12px;
+}
+
+.sr-report .sr-report__total-number {
+    color: var(--sr-gray-900);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* ================================================================
+   05. EMPTY & ERROR STATES
+   ================================================================ */
+
+.sr-report .sr-report__empty,
+.sr-report .sr-report__notice {
+    margin: 0;
+    padding: 32px 16px;
+
+    border: 1px dashed var(--sr-gray-300);
+    border-radius: var(--sr-g2);
+
+    background: var(--sr-white);
+    color: var(--sr-gray-500);
+
+    font-size: 13px;
+    text-align: center;
+}
+
+.sr-report .sr-report__notice--error {
+    border: 1px solid var(--sr-red);
+    border-radius: var(--sr-g1);
+
+    color: var(--sr-red);
+    text-align: left;
+}
+
+
+/* ================================================================
+   06. REPORT TABLE — DESKTOP
+   ================================================================ */
+
+.sr-report .sr-report__scroll {
+    width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--sr-gray-200);
+    border-radius: var(--sr-g2);
+
+    background: var(--sr-white);
+
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sr-gray-300) transparent;
+}
+
+.sr-report .sr-report__table {
+    width: 100%;
+    min-width: 850px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    background: var(--sr-white);
+}
+
+/* Accessible caption */
+
+.sr-report .sr-report__caption {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Headers */
+
+.sr-report .sr-report__table th {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid var(--sr-gray-200);
+
+    background: var(--sr-gray-100);
+    color: var(--sr-gray-500);
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.055em;
+
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Cells */
+
+.sr-report .sr-report__table td {
+    padding: 11px 14px;
+
+    border-bottom: 1px solid var(--sr-gray-200);
+
+    color: var(--sr-gray-900);
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+.sr-report .sr-report__table tbody tr {
+    transition: background-color var(--sr-transition);
+}
+
+.sr-report .sr-report__table tbody tr:hover {
+    background: #FAFAFA;
+}
+
+.sr-report .sr-report__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* ================================================================
+   07. TABLE CONTENT
+   ================================================================ */
+
+.sr-report .sr-report__time {
+    color: var(--sr-gray-500);
+
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+
+    white-space: nowrap;
+}
+
+.sr-report .sr-report__artwork {
+    max-width: 22rem;
+
+    color: var(--sr-gray-900);
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+.sr-report .sr-report__artwork a {
+    color: var(--sr-black);
+
+    text-decoration: none;
+    text-underline-offset: 3px;
+}
+
+.sr-report .sr-report__artwork a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--sr-green);
+}
+
+.sr-report .sr-report__email {
+    color: var(--sr-gray-500);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.sr-report .sr-report__approver {
+    color: var(--sr-gray-700);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.sr-report .sr-report__approver--none {
+    color: var(--sr-gray-500);
+    font-style: italic;
+    font-weight: 400;
+}
+
+
+/* ================================================================
+   08. ARTWORK STATUS
+   ================================================================ */
+
+.sr-report .sr-report__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 2px 0;
+
+    color: var(--sr-gray-500);
+
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sr-report .sr-report__status::before {
+    flex: 0 0 7px;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: currentColor;
+
+    content: "";
+}
+
+.sr-report .sr-report__status--approved {
+    color: var(--sr-green);
+}
+
+.sr-report .sr-report__status--rejected {
+    color: var(--sr-red);
+}
+
+.sr-report .sr-report__status--pending {
+    color: var(--sr-gray-500);
+}
+
+
+/* ================================================================
+   09. PRIVATE ARTWORK PREVIEW
+   ================================================================ */
+
+.sr-report.sr-report--preview {
+    width: min(860px, 100%);
+}
+
+.sr-report .sr-report__preview-image {
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    border-radius: var(--sr-g2);
+    background: var(--sr-gray-100);
+}
+
+.sr-report .sr-report__preview-text {
+    color: var(--sr-gray-700);
+
+    font-size: 14px;
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ================================================================
+   10. FOCUS & ACCESSIBILITY
+   ================================================================ */
+
+.sr-report a:focus-visible,
+.sr-report button:focus-visible,
+.sr-report .sr-report__scroll:focus-visible {
+    outline: 2px solid var(--sr-green);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   11. SECTION DIVIDER
+   ================================================================ */
+
+.sr-report-divider {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+
+    border: 0;
+    border-top: 1px solid #E8E8ED;
+}
+
+
+/* ================================================================
+   12. TABLET
+   ================================================================ */
+
+@media (max-width: 900px) {
+
+    .sr-report {
+        padding: 28px 18px;
+    }
+
+    .sr-report .sr-report__table {
+        min-width: 760px;
+    }
+}
+
+
+/* ================================================================
+   13. MOBILE — STACKED SUBMISSION RECORDS
+   ================================================================ */
+
+@media (max-width: 760px) {
+
+    .sr-report,
+    .sr-report.sr-report--preview {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 22px 14px;
+
+        border: 0;
+        border-radius: 0;
+    }
+
+    /* Header */
+
+    .sr-report .sr-report__header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 14px;
+
+        margin-bottom: 20px;
+    }
+
+    .sr-report .sr-report__title {
+        font-size: 22px;
+    }
+
+    .sr-report .sr-report__range {
+        overflow-wrap: anywhere;
+    }
+
+    /* Controls */
+
+    .sr-report .sr-report__controls {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sr-report .sr-report__periods {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+        gap: 4px;
+    }
+
+    .sr-report .sr-report__period {
+        min-width: 0;
+        padding: 0 5px;
+        font-size: 12px;
+        justify-content: center;
+    }
+
+    .sr-report .sr-report__download {
+        width: 100%;
+        min-height: 38px;
+    }
+
+    /* Remove horizontal scrolling */
+
+    .sr-report .sr-report__scroll {
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .sr-report .sr-report__table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sr-report .sr-report__table thead {
+        display: none;
+    }
+
+    .sr-report .sr-report__table tbody {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .sr-report .sr-report__table tbody tr {
+        display: block;
+        min-width: 0;
+        padding: 10px 13px;
+
+        border: 1px solid var(--sr-gray-200);
+        border-radius: var(--sr-g2);
+
+        background: var(--sr-white);
+    }
+
+    .sr-report .sr-report__table tbody tr:hover {
+        background: var(--sr-white);
+    }
+
+    .sr-report .sr-report__table tbody td {
+        display: grid;
+        grid-template-columns: minmax(85px, 34%) minmax(0, 1fr);
+        align-items: start;
+        gap: 8px;
+
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+
+        padding: 9px 0;
+
+        border-bottom: 1px solid var(--sr-gray-200);
+
+        overflow-wrap: anywhere;
+        vertical-align: middle;
+    }
+
+    .sr-report .sr-report__table tbody tr td:last-child {
+        border-bottom: 0;
+    }
+
+    /* Field labels */
+
+    .sr-report .sr-report__table td::before {
+        content: attr(data-label);
+
+        color: var(--sr-gray-500);
+
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        line-height: 1.5;
+
+        text-transform: uppercase;
+    }
+
+    /* Content */
+
+    .sr-report .sr-report__artwork {
+        max-width: none;
+        min-width: 0;
+    }
+
+    .sr-report .sr-report__artwork a {
+        overflow-wrap: anywhere;
+    }
+
+    .sr-report .sr-report__email,
+    .sr-report .sr-report__time,
+    .sr-report .sr-report__approver {
+        min-width: 0;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .sr-report .sr-report__status {
+        justify-self: start;
+    }
+
+    /* Preview */
+
+    .sr-report .sr-report__preview-image {
+        width: 100%;
+        max-height: 65vh;
+        object-fit: contain;
+    }
+
+    .sr-report .sr-report__empty,
+    .sr-report .sr-report__notice {
+        padding: 24px 14px;
+    }
+}
+
+
+/* ================================================================
+   14. VERY SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 380px) {
+
+    .sr-report {
+        padding: 22px 10px;
+    }
+
+    .sr-report .sr-report__table tbody tr {
+        padding: 9px 10px;
+    }
+
+    .sr-report .sr-report__table tbody td {
+        grid-template-columns: minmax(76px, 31%) minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .sr-report .sr-report__period {
+        font-size: 11px;
+    }
+}
+
+
+/* ================================================================
+   15. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .sr-report *,
+    .sr-report *::before,
+    .sr-report *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

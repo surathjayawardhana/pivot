@@ -1,0 +1,956 @@
+
+/* ================================================================
+   ARTCRAFT — ARTWORK PARTICIPATION REPORT
+   Minimalist, responsive admin design.
+
+   Palette:
+   White / Black / #3BA73C / Red / Grayscale
+
+   G1: 8px
+   G2: 20px
+
+   Typography:
+   Helvetica Neue / Helvetica / Roboto
+
+   Desktop: Clean contribution table.
+   Mobile: Stacked user contribution records.
+
+   Scoped to .apr.
+   ================================================================ */
+
+
+/* ================================================================
+   01. DESIGN TOKENS & BASE
+   ================================================================ */
+
+.apr {
+    --apr-white: #FFFFFF;
+    --apr-black: #000000;
+
+    --apr-green: #3BA73C;
+    --apr-green-soft: #F1F8F1;
+
+    --apr-red: #E53935;
+    --apr-red-soft: #FEF3F2;
+
+    --apr-gray-900: #1D1D1F;
+    --apr-gray-700: #48484A;
+    --apr-gray-500: #86868B;
+    --apr-gray-300: #D2D2D7;
+    --apr-gray-200: #E8E8ED;
+    --apr-gray-100: #F5F5F7;
+
+    --apr-g1: 8px;
+    --apr-g2: 20px;
+
+    --apr-font-heading: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    --apr-font-body: Roboto, Helvetica, "Helvetica Neue", Arial, sans-serif;
+
+    --apr-transition: 160ms ease;
+
+    box-sizing: border-box;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 32px 24px;
+
+    background: var(--apr-white);
+    color: var(--apr-gray-900);
+
+    font-family: var(--apr-font-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.apr *,
+.apr *::before,
+.apr *::after {
+    box-sizing: border-box;
+}
+
+
+/* ================================================================
+   02. HEADER
+   ================================================================ */
+
+.apr .apr__header {
+    margin-bottom: 22px;
+}
+
+.apr .apr__title {
+    margin: 0 0 6px;
+
+    color: var(--apr-black);
+
+    font-family: var(--apr-font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.apr .apr__intro,
+.apr .apr__note {
+    margin: 0;
+
+    color: var(--apr-gray-500);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.apr .apr__note {
+    margin-top: 7px;
+}
+
+
+/* ================================================================
+   03. SUMMARY STATISTICS
+   ================================================================ */
+
+.apr .apr__summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+
+    margin: 0 0 22px;
+    padding: 0;
+}
+
+.apr .apr__stat {
+    min-width: 0;
+    margin: 0;
+    padding: 12px 14px;
+
+    border: 1px solid var(--apr-gray-200);
+    border-radius: var(--apr-g1);
+
+    background: var(--apr-white);
+}
+
+.apr .apr__stat dt {
+    margin: 0;
+
+    color: var(--apr-gray-500);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.apr .apr__stat dd {
+    margin: 4px 0 0;
+
+    color: var(--apr-black);
+
+    font-family: var(--apr-font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+}
+
+.apr .apr__stat--approved dd {
+    color: var(--apr-green);
+}
+
+.apr .apr__stat--rejected dd {
+    color: var(--apr-red);
+}
+
+.apr .apr__stat--pending dd {
+    color: var(--apr-gray-500);
+}
+
+
+/* ================================================================
+   04. SEARCH & FILTERS
+   ================================================================ */
+
+.apr .apr__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+
+    margin: 0 0 18px;
+    padding: 0;
+}
+
+.apr .apr__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    min-width: 130px;
+}
+
+.apr .apr__field--search {
+    flex: 1 1 240px;
+    min-width: 180px;
+}
+
+.apr .apr__label {
+    color: var(--apr-gray-500);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Search input and select */
+
+.apr input[type="search"],
+.apr select {
+    width: 100%;
+    min-width: 0;
+    min-height: 36px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--apr-gray-300);
+    border-radius: var(--apr-g1);
+
+    background: var(--apr-white);
+    color: var(--apr-black);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition: border-color var(--apr-transition);
+}
+
+.apr input[type="search"]::placeholder {
+    color: var(--apr-gray-500);
+}
+
+.apr input[type="search"]:hover,
+.apr select:hover {
+    border-color: var(--apr-gray-500);
+}
+
+.apr input[type="search"]:focus,
+.apr select:focus {
+    border-color: var(--apr-black);
+}
+
+
+/* ================================================================
+   05. FILTER ACTIONS & BUTTONS
+   ================================================================ */
+
+.apr .apr__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.apr .apr__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 36px;
+    padding: 0 14px;
+
+    border: 1px solid var(--apr-black);
+    border-radius: var(--apr-g1);
+
+    background: var(--apr-black);
+    color: var(--apr-white);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color var(--apr-transition),
+        border-color var(--apr-transition);
+}
+
+.apr .apr__button:hover {
+    border-color: var(--apr-gray-700);
+    background: var(--apr-gray-700);
+}
+
+.apr .apr__reset {
+    color: var(--apr-gray-500);
+
+    font-size: 12px;
+    text-decoration: none;
+    text-underline-offset: 3px;
+}
+
+.apr .apr__reset:hover {
+    color: var(--apr-black);
+    text-decoration: underline;
+}
+
+
+/* ================================================================
+   06. PARTICIPATION TABLE — DESKTOP
+   ================================================================ */
+
+.apr .apr__scroll {
+    width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--apr-gray-200);
+    border-radius: var(--apr-g2);
+
+    background: var(--apr-white);
+
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--apr-gray-300) transparent;
+}
+
+.apr .apr__scroll::-webkit-scrollbar {
+    height: 5px;
+}
+
+.apr .apr__scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--apr-gray-300);
+}
+
+.apr .apr__table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    background: var(--apr-white);
+}
+
+/* Column headings */
+
+.apr .apr__table thead th {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid var(--apr-gray-200);
+
+    background: var(--apr-gray-100);
+    color: var(--apr-gray-500);
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.055em;
+
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Table cells */
+
+.apr .apr__table th,
+.apr .apr__table td {
+    padding: 11px 14px;
+
+    border-bottom: 1px solid var(--apr-gray-200);
+
+    vertical-align: middle;
+}
+
+.apr .apr__table tbody tr {
+    transition: background-color var(--apr-transition);
+}
+
+.apr .apr__table tbody tr:hover {
+    background: #FAFAFA;
+}
+
+.apr .apr__table tbody tr:last-child th,
+.apr .apr__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* ================================================================
+   07. SORTABLE COLUMN HEADINGS
+   ================================================================ */
+
+.apr .apr__table thead a {
+    color: inherit;
+
+    text-decoration: none;
+    text-underline-offset: 3px;
+}
+
+.apr .apr__table thead a:hover {
+    color: var(--apr-black);
+    text-decoration: underline;
+}
+
+.apr .apr__table thead th[aria-sort="ascending"] a,
+.apr .apr__table thead th[aria-sort="descending"] a {
+    color: var(--apr-black);
+}
+
+
+/* ================================================================
+   08. USER INFORMATION
+   ================================================================ */
+
+.apr .apr__table tbody th.apr__user {
+    color: var(--apr-gray-900);
+
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.apr .apr__id {
+    color: var(--apr-gray-500);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.apr .apr__email {
+    min-width: 200px;
+
+    color: var(--apr-gray-700);
+    font-size: 13px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ================================================================
+   09. ARTWORK COUNTS
+   ================================================================ */
+
+.apr .apr__table .apr__num {
+    color: var(--apr-gray-900);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+/* Approved */
+
+.apr .apr__table .apr__num--approved {
+    color: var(--apr-green);
+}
+
+/* Rejected */
+
+.apr .apr__table .apr__num--rejected {
+    color: var(--apr-red);
+}
+
+/* Pending */
+
+.apr .apr__table .apr__num--pending {
+    color: var(--apr-gray-500);
+    font-weight: 400;
+}
+
+/* Zero values */
+
+.apr .apr__table .apr__num.is-zero {
+    color: var(--apr-gray-500);
+    font-weight: 400;
+}
+
+
+/* ================================================================
+   10. ACCOUNT STATUS
+   ================================================================ */
+
+.apr .apr__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 2px 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    color: var(--apr-gray-500);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+/* Active */
+
+.apr .apr__tag--active {
+    color: var(--apr-green);
+}
+
+/* Removed */
+
+.apr .apr__tag--removed {
+    color: var(--apr-red);
+    font-weight: 600;
+}
+
+/* Suspended */
+
+.apr .apr__tag--suspended {
+    color: var(--apr-gray-700);
+}
+
+/* Removed user record */
+
+.apr .apr__row--removed th.apr__user,
+.apr .apr__row--removed .apr__email {
+    color: var(--apr-gray-500);
+}
+
+.apr .apr__row--removed th.apr__user {
+    text-decoration: line-through;
+    text-decoration-color: var(--apr-gray-300);
+}
+
+
+/* ================================================================
+   11. PAGINATION
+   ================================================================ */
+
+.apr .apr__pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.apr .apr__count {
+    margin: 0;
+
+    color: var(--apr-gray-500);
+    font-size: 12px;
+}
+
+.apr .apr__pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.apr .apr__pages a,
+.apr .apr__pages span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0 9px;
+
+    border: 1px solid var(--apr-gray-200);
+    border-radius: var(--apr-g1);
+
+    background: var(--apr-white);
+    color: var(--apr-gray-900);
+
+    font-size: 12px;
+    text-decoration: none;
+
+    transition:
+        background-color var(--apr-transition),
+        border-color var(--apr-transition);
+}
+
+.apr .apr__pages a:hover {
+    border-color: var(--apr-black);
+}
+
+.apr .apr__pages .is-current {
+    border-color: var(--apr-black);
+    background: var(--apr-black);
+    color: var(--apr-white);
+    font-weight: 600;
+}
+
+.apr .apr__pages .is-disabled {
+    color: var(--apr-gray-300);
+}
+
+.apr .apr__pages .is-gap {
+    min-width: 0;
+    padding: 0 3px;
+
+    border-color: transparent;
+    color: var(--apr-gray-500);
+}
+
+
+/* ================================================================
+   12. EMPTY STATES & NOTICES
+   ================================================================ */
+
+.apr .apr__empty,
+.apr .apr__notice {
+    margin: 0;
+    padding: 32px 16px;
+
+    border: 1px dashed var(--apr-gray-300);
+    border-radius: var(--apr-g2);
+
+    background: var(--apr-white);
+    color: var(--apr-gray-500);
+
+    font-size: 13px;
+    text-align: center;
+}
+
+
+/* ================================================================
+   13. ACCESSIBILITY
+   ================================================================ */
+
+.apr .apr__sr {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+.apr a:focus-visible,
+.apr button:focus-visible,
+.apr input:focus-visible,
+.apr select:focus-visible,
+.apr .apr__scroll:focus-visible {
+    outline: 2px solid var(--apr-green);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   14. SECTION DIVIDER
+   ================================================================ */
+
+.apr-divider {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+
+    border: 0;
+    border-top: 1px solid #E8E8ED;
+}
+
+
+/* ================================================================
+   15. TABLET
+   ================================================================ */
+
+@media (max-width: 900px) {
+
+    .apr {
+        padding: 28px 18px;
+    }
+
+    .apr .apr__table {
+        min-width: 700px;
+    }
+}
+
+
+/* ================================================================
+   16. MOBILE — STACKED USER PARTICIPATION RECORDS
+   ================================================================ */
+
+@media (max-width: 760px) {
+
+    .apr {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 22px 14px;
+    }
+
+    /* Header */
+
+    .apr .apr__header {
+        margin-bottom: 20px;
+    }
+
+    .apr .apr__title {
+        font-size: 22px;
+    }
+
+    /* Summary: two columns on mobile */
+
+    .apr .apr__summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+
+        margin-bottom: 20px;
+    }
+
+    .apr .apr__stat {
+        padding: 11px;
+    }
+
+    .apr .apr__stat dd {
+        font-size: 22px;
+    }
+
+    /* Filters */
+
+    .apr .apr__filters {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+
+        margin-bottom: 16px;
+    }
+
+    .apr .apr__field,
+    .apr .apr__field--search {
+        width: 100%;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .apr .apr__actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .apr .apr__button {
+        min-height: 38px;
+    }
+
+    /* Remove the horizontal table layout */
+
+    .apr .apr__scroll {
+        overflow: visible;
+
+        border: 0;
+        border-radius: 0;
+    }
+
+    .apr .apr__table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .apr .apr__table thead {
+        display: none;
+    }
+
+    .apr .apr__table tbody {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+    }
+
+    /* Each user becomes an independent record */
+
+    .apr .apr__table tbody tr {
+        display: block;
+        min-width: 0;
+        padding: 10px 13px;
+
+        border: 1px solid var(--apr-gray-200);
+        border-radius: var(--apr-g2);
+
+        background: var(--apr-white);
+    }
+
+    .apr .apr__table tbody tr:hover {
+        background: var(--apr-white);
+    }
+
+    /* Convert each cell into label + value */
+
+    .apr .apr__table tbody td,
+    .apr .apr__table tbody th.apr__user {
+        display: grid;
+        grid-template-columns: minmax(85px, 34%) minmax(0, 1fr);
+        align-items: start;
+        gap: 8px;
+
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+
+        padding: 9px 0;
+
+        border-bottom: 1px solid var(--apr-gray-200);
+
+        text-align: left;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    .apr .apr__table tbody tr td:last-child {
+        border-bottom: 0;
+    }
+
+    .apr .apr__table tbody th.apr__user {
+        color: var(--apr-black);
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* Generate labels using data-label */
+
+    .apr .apr__table tbody td::before,
+    .apr .apr__table tbody th.apr__user::before {
+        content: attr(data-label);
+
+        color: var(--apr-gray-500);
+
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        line-height: 1.5;
+
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    /* User details */
+
+    .apr .apr__id,
+    .apr .apr__email {
+        min-width: 0;
+
+        text-align: left;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    /* Contribution numbers */
+
+    .apr .apr__table tbody td.apr__num {
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .apr .apr__table tbody td.apr__num--approved {
+        color: var(--apr-green);
+    }
+
+    .apr .apr__table tbody td.apr__num--rejected {
+        color: var(--apr-red);
+    }
+
+    .apr .apr__table tbody td.apr__num--pending,
+    .apr .apr__table tbody td.apr__num.is-zero {
+        color: var(--apr-gray-500);
+        font-weight: 400;
+    }
+
+    /* Account state */
+
+    .apr .apr__tag {
+        justify-self: start;
+    }
+
+    /* Pagination */
+
+    .apr .apr__pager {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+
+        margin-top: 18px;
+    }
+
+    .apr .apr__pages {
+        width: 100%;
+        gap: 5px;
+    }
+
+    /* Empty states */
+
+    .apr .apr__empty,
+    .apr .apr__notice {
+        padding: 24px 14px;
+    }
+}
+
+
+/* ================================================================
+   17. VERY SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 380px) {
+
+    .apr {
+        padding: 22px 10px;
+    }
+
+    .apr .apr__summary {
+        gap: 7px;
+    }
+
+    .apr .apr__stat {
+        padding: 9px 10px;
+    }
+
+    .apr .apr__stat dd {
+        font-size: 20px;
+    }
+
+    .apr .apr__table tbody tr {
+        padding: 9px 10px;
+    }
+
+    .apr .apr__table tbody td,
+    .apr .apr__table tbody th.apr__user {
+        grid-template-columns: minmax(76px, 31%) minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .apr .apr__pages {
+        gap: 4px;
+    }
+
+    .apr .apr__pages a,
+    .apr .apr__pages span {
+        min-width: 29px;
+        padding: 0 7px;
+    }
+}
+
+
+/* ================================================================
+   18. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .apr *,
+    .apr *::before,
+    .apr *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
