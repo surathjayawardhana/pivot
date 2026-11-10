@@ -1,0 +1,1007 @@
+
+/* ================================================================
+   ARTCRAFT — ARTWORK MANAGEMENT
+   Minimalist responsive admin design.
+
+   Palette: White / Black / #3BA73C / Red / Gray
+   G1: 8px | G2: 20px
+   Fonts: Helvetica Neue / Helvetica / Roboto
+
+   Desktop: Traditional table.
+   Mobile: Stacked artwork records.
+
+   Scoped to .am-section and .am-preview.
+   ================================================================ */
+
+
+/* ================================================================
+   01. DESIGN TOKENS & BASE
+   ================================================================ */
+
+.am-section,
+.am-preview {
+    --am-white: #FFFFFF;
+    --am-black: #000000;
+
+    --am-green: #3BA73C;
+    --am-green-soft: #F1F8F1;
+
+    --am-red: #E53935;
+    --am-red-soft: #FEF3F2;
+
+    --am-gray-900: #1D1D1F;
+    --am-gray-700: #48484A;
+    --am-gray-500: #86868B;
+    --am-gray-300: #D2D2D7;
+    --am-gray-200: #E8E8ED;
+    --am-gray-100: #F5F5F7;
+
+    --am-g1: 8px;
+    --am-g2: 20px;
+
+    --am-font-head: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    --am-font-body: Roboto, Helvetica, "Helvetica Neue", Arial, sans-serif;
+
+    --am-transition: 160ms ease;
+
+    box-sizing: border-box;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 32px 24px;
+
+    background: var(--am-white);
+    color: var(--am-gray-900);
+
+    font-family: var(--am-font-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.am-section *,
+.am-section *::before,
+.am-section *::after,
+.am-preview *,
+.am-preview *::before,
+.am-preview *::after {
+    box-sizing: border-box;
+}
+
+
+/* ================================================================
+   02. SECTION DIVIDER
+   ================================================================ */
+
+hr.am-divider {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+
+    border: 0;
+    border-top: 1px solid #E8E8ED;
+}
+
+
+/* ================================================================
+   03. ACCESSIBILITY
+   ================================================================ */
+
+.am-section .am-sr-only,
+.am-preview .am-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+.am-section a:focus-visible,
+.am-section button:focus-visible,
+.am-section input:focus-visible,
+.am-section .am-log:focus-visible,
+.am-preview a:focus-visible {
+    outline: 2px solid var(--am-green);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   04. HEADER
+   ================================================================ */
+
+.am-section .am-header {
+    margin-bottom: 24px;
+}
+
+.am-section .am-title,
+.am-preview .am-title {
+    margin: 0 0 6px;
+
+    color: var(--am-black);
+
+    font-family: var(--am-font-head);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.am-section .am-intro {
+    margin: 0;
+
+    color: var(--am-gray-500);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.am-section code {
+    padding: 2px 6px;
+
+    border-radius: var(--am-g1);
+    background: var(--am-gray-100);
+
+    color: var(--am-gray-900);
+    font-family: monospace;
+    font-size: 12px;
+}
+
+
+/* ================================================================
+   05. NOTIFICATIONS
+   ================================================================ */
+
+.am-section .am-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 20px;
+    padding: 12px 14px;
+
+    border: 1px solid var(--am-gray-200);
+    border-radius: var(--am-g1);
+
+    background: var(--am-white);
+    color: var(--am-gray-900);
+
+    font-size: 13px;
+}
+
+.am-section .am-notice--success {
+    border-left: 3px solid var(--am-green);
+}
+
+.am-section .am-notice--error {
+    border-left: 3px solid var(--am-red);
+}
+
+.am-section .am-notice--info {
+    border-left: 3px solid var(--am-gray-500);
+}
+
+
+/* ================================================================
+   06. TOOLBAR
+   ================================================================ */
+
+.am-section .am-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.am-section .am-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.am-section .am-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 34px;
+    padding: 0 12px;
+
+    border: 1px solid transparent;
+    border-radius: var(--am-g1);
+
+    background: transparent;
+    color: var(--am-gray-700);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        color var(--am-transition),
+        background-color var(--am-transition),
+        border-color var(--am-transition);
+}
+
+.am-section .am-tab:hover {
+    background: var(--am-gray-100);
+    color: var(--am-black);
+}
+
+.am-section .am-tab--active {
+    border-color: var(--am-black);
+    background: var(--am-black);
+    color: var(--am-white);
+}
+
+.am-section .am-tab--active:hover {
+    background: var(--am-gray-900);
+    color: var(--am-white);
+}
+
+.am-section .am-tab__count {
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+}
+
+.am-section .am-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+}
+
+.am-section .am-clear {
+    padding: 6px 4px;
+
+    background: transparent;
+    color: var(--am-gray-500);
+
+    font: inherit;
+    font-size: 12px;
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.am-section .am-clear:hover {
+    color: var(--am-black);
+}
+
+
+/* ================================================================
+   07. INPUTS
+   ================================================================ */
+
+.am-section .am-input {
+    width: 260px;
+    max-width: 100%;
+    height: 36px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--am-gray-300);
+    border-radius: var(--am-g1);
+
+    background: var(--am-white);
+    color: var(--am-black);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition: border-color var(--am-transition);
+}
+
+.am-section .am-input::placeholder {
+    color: var(--am-gray-500);
+}
+
+.am-section .am-input:hover {
+    border-color: var(--am-gray-500);
+}
+
+.am-section .am-input:focus {
+    border-color: var(--am-black);
+}
+
+.am-section .am-input--note {
+    width: 190px;
+    height: 32px;
+    font-size: 12px;
+}
+
+
+/* ================================================================
+   08. BUTTONS
+   ================================================================ */
+
+.am-section .am-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 36px;
+    padding: 0 14px;
+
+    border: 1px solid var(--am-black);
+    border-radius: var(--am-g1);
+
+    background: var(--am-black);
+    color: var(--am-white);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color var(--am-transition),
+        color var(--am-transition),
+        border-color var(--am-transition);
+}
+
+.am-section .am-btn:hover {
+    border-color: var(--am-gray-700);
+    background: var(--am-gray-700);
+}
+
+.am-section .am-form .am-btn {
+    min-height: 32px;
+    padding: 0 11px;
+    font-size: 12px;
+}
+
+/* Approve */
+
+.am-section .am-btn--approve {
+    border-color: var(--am-green);
+    background: var(--am-white);
+    color: var(--am-green);
+}
+
+.am-section .am-btn--approve:hover {
+    border-color: var(--am-green);
+    background: var(--am-green-soft);
+    color: var(--am-green);
+}
+
+/* Reject */
+
+.am-section .am-btn--reject {
+    border-color: var(--am-red);
+    background: var(--am-white);
+    color: var(--am-red);
+}
+
+.am-section .am-btn--reject:hover {
+    border-color: var(--am-red);
+    background: var(--am-red-soft);
+    color: var(--am-red);
+}
+
+
+/* ================================================================
+   09. ARTWORK TABLE — DESKTOP
+   ================================================================ */
+
+.am-section .am-log {
+    width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--am-gray-200);
+    border-radius: var(--am-g2);
+
+    background: var(--am-white);
+
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--am-gray-300) transparent;
+}
+
+.am-section .am-table {
+    width: 100%;
+    min-width: 980px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.am-section .am-table th {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid var(--am-gray-200);
+
+    background: var(--am-gray-100);
+    color: var(--am-gray-500);
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.055em;
+
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.am-section .am-table td {
+    padding: 11px 14px;
+
+    border-bottom: 1px solid var(--am-gray-200);
+
+    color: var(--am-gray-900);
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+.am-section .am-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.am-section .am-table tbody tr {
+    transition: background-color var(--am-transition);
+}
+
+.am-section .am-table tbody tr:hover {
+    background: #FAFAFA;
+}
+
+
+/* ================================================================
+   10. TABLE CONTENT
+   ================================================================ */
+
+.am-section .am-col-id {
+    width: 60px;
+    color: var(--am-gray-500);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.am-section .am-col-title {
+    max-width: 260px;
+}
+
+.am-section .am-title-link {
+    display: block;
+    overflow: hidden;
+
+    color: var(--am-black);
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.am-section .am-title-link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--am-gray-500);
+    text-underline-offset: 3px;
+}
+
+.am-section .am-col-artist {
+    max-width: 220px;
+}
+
+.am-section .am-artist,
+.am-section .am-email {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.am-section .am-artist {
+    font-weight: 500;
+}
+
+.am-section .am-email {
+    margin-top: 2px;
+    color: var(--am-gray-500);
+    font-size: 11px;
+}
+
+.am-section .am-col-submitted,
+.am-section .am-col-status {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.am-section .am-col-review {
+    max-width: 230px;
+}
+
+.am-section .am-by {
+    display: block;
+    color: var(--am-gray-700);
+    font-size: 12px;
+}
+
+.am-section .am-note {
+    display: block;
+    overflow: hidden;
+
+    color: var(--am-gray-500);
+    font-size: 11px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.am-section .am-muted,
+.am-preview .am-muted {
+    color: var(--am-gray-500);
+}
+
+
+/* ================================================================
+   11. STATUS
+   ================================================================ */
+
+.am-section .am-status,
+.am-preview .am-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.am-section .am-status::before,
+.am-preview .am-status::before {
+    flex: 0 0 7px;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: currentColor;
+
+    content: "";
+}
+
+.am-section .am-status--approved,
+.am-preview .am-status--approved {
+    color: var(--am-green);
+}
+
+.am-section .am-status--rejected,
+.am-preview .am-status--rejected {
+    color: var(--am-red);
+}
+
+.am-section .am-status--pending,
+.am-preview .am-status--pending {
+    color: var(--am-gray-500);
+}
+
+
+/* ================================================================
+   12. ACTIONS
+   ================================================================ */
+
+.am-section .am-col-actions {
+    white-space: nowrap;
+}
+
+.am-section .am-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+
+    margin: 0;
+}
+
+
+/* ================================================================
+   13. EMPTY STATE & PAGINATION
+   ================================================================ */
+
+.am-section .am-empty {
+    margin: 0;
+    padding: 32px 16px;
+
+    border: 1px dashed var(--am-gray-300);
+    border-radius: var(--am-g2);
+
+    color: var(--am-gray-500);
+    font-size: 13px;
+    text-align: center;
+}
+
+.am-section .am-pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 18px;
+
+    color: var(--am-gray-500);
+    font-size: 12px;
+}
+
+.am-section .am-pager a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0 9px;
+
+    border: 1px solid var(--am-gray-200);
+    border-radius: var(--am-g1);
+
+    color: var(--am-black);
+    text-decoration: none;
+}
+
+.am-section .am-pager a:hover {
+    border-color: var(--am-black);
+}
+
+
+/* ================================================================
+   14. PRIVATE ARTWORK PREVIEW
+   ================================================================ */
+
+.am-preview {
+    width: min(860px, 100%);
+}
+
+.am-preview .am-back {
+    display: inline-flex;
+    margin-bottom: 22px;
+
+    color: var(--am-gray-500);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.am-preview .am-back:hover {
+    color: var(--am-black);
+}
+
+.am-preview .am-private {
+    margin: 0 0 20px;
+    padding: 11px 14px;
+
+    border: 1px solid var(--am-gray-200);
+    border-radius: var(--am-g1);
+
+    background: var(--am-gray-100);
+    color: var(--am-gray-700);
+
+    font-size: 12px;
+}
+
+.am-preview .am-facts {
+    display: grid;
+    grid-template-columns: minmax(100px, max-content) minmax(0, 1fr);
+    gap: 10px 20px;
+
+    margin: 20px 0 24px;
+    padding: 18px;
+
+    border: 1px solid var(--am-gray-200);
+    border-radius: var(--am-g2);
+}
+
+.am-preview .am-facts dt {
+    color: var(--am-gray-500);
+    font-size: 12px;
+}
+
+.am-preview .am-facts dd {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.am-preview .am-image {
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    margin: 0 0 24px;
+
+    border-radius: var(--am-g2);
+    background: var(--am-gray-100);
+}
+
+.am-preview .am-missing {
+    margin: 0 0 24px;
+    padding: 32px 16px;
+
+    border: 1px dashed var(--am-gray-300);
+    border-radius: var(--am-g2);
+
+    color: var(--am-gray-500);
+    text-align: center;
+}
+
+.am-preview .am-description {
+    margin: 0;
+
+    color: var(--am-gray-700);
+    font-size: 14px;
+    line-height: 1.8;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+
+/* ================================================================
+   15. TABLET
+   ================================================================ */
+
+@media (max-width: 900px) {
+
+    .am-section,
+    .am-preview {
+        padding: 28px 18px;
+    }
+
+    .am-section .am-table {
+        min-width: 850px;
+    }
+}
+
+
+/* ================================================================
+   16. MOBILE — STACKED ARTWORK RECORDS
+   ================================================================ */
+
+@media (max-width: 760px) {
+
+    .am-section,
+    .am-preview {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 22px 14px;
+    }
+
+    .am-section .am-title,
+    .am-preview .am-title {
+        font-size: 22px;
+    }
+
+    /* Toolbar */
+
+    .am-section .am-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .am-section .am-tabs {
+        width: 100%;
+        gap: 4px;
+    }
+
+    .am-section .am-tab {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    .am-section .am-search {
+        width: 100%;
+    }
+
+    .am-section .am-input {
+        flex: 1;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Remove horizontal table scrolling */
+
+    .am-section .am-log {
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .am-section .am-table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .am-section .am-table thead {
+        display: none;
+    }
+
+    .am-section .am-table tbody {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .am-section .am-table tbody tr {
+        display: block;
+        min-width: 0;
+        padding: 10px 13px;
+
+        border: 1px solid var(--am-gray-200);
+        border-radius: var(--am-g2);
+
+        background: var(--am-white);
+    }
+
+    .am-section .am-table tbody tr:hover {
+        background: var(--am-white);
+    }
+
+    .am-section .am-table tbody td {
+        display: grid;
+        grid-template-columns: minmax(85px, 34%) minmax(0, 1fr);
+        align-items: start;
+        gap: 8px;
+
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+
+        padding: 9px 0;
+
+        border-bottom: 1px solid var(--am-gray-200);
+
+        overflow-wrap: anywhere;
+        vertical-align: middle;
+    }
+
+    .am-section .am-table tbody tr td:last-child {
+        border-bottom: 0;
+    }
+
+    .am-section .am-table td::before {
+        content: attr(data-label);
+
+        color: var(--am-gray-500);
+
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        line-height: 1.5;
+
+        text-transform: uppercase;
+    }
+
+    /* Content must wrap rather than force a wide card */
+
+    .am-section .am-col-title,
+    .am-section .am-col-artist,
+    .am-section .am-col-review {
+        max-width: none;
+    }
+
+    .am-section .am-title-link,
+    .am-section .am-artist,
+    .am-section .am-email,
+    .am-section .am-by,
+    .am-section .am-note {
+        overflow: visible;
+        text-overflow: unset;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .am-section .am-col-submitted,
+    .am-section .am-col-status {
+        white-space: normal;
+    }
+
+    /* Action area */
+
+    .am-section .am-table td.am-col-actions {
+        display: block;
+        padding-top: 12px;
+    }
+
+    .am-section .am-col-actions::before {
+        display: block;
+        margin-bottom: 9px;
+    }
+
+    .am-section .am-form {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .am-section .am-form .am-btn {
+        min-height: 36px;
+        padding: 0 13px;
+    }
+
+    /* Preview page */
+
+    .am-preview .am-facts {
+        grid-template-columns: minmax(80px, 32%) minmax(0, 1fr);
+        gap: 9px 12px;
+        padding: 14px;
+    }
+
+    .am-preview .am-image {
+        width: 100%;
+        max-height: 65vh;
+        object-fit: contain;
+    }
+}
+
+
+/* ================================================================
+   17. VERY SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 380px) {
+
+    .am-section,
+    .am-preview {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .am-section .am-table tbody tr {
+        padding: 9px 10px;
+    }
+
+    .am-section .am-table tbody td {
+        grid-template-columns: minmax(76px, 31%) minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .am-section .am-tabs {
+        flex-wrap: wrap;
+    }
+
+    .am-preview .am-facts {
+        grid-template-columns: minmax(75px, 30%) minmax(0, 1fr);
+        padding: 12px;
+    }
+}
+
+
+/* ================================================================
+   18. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .am-section *,
+    .am-preview * {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
