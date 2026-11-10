@@ -1,0 +1,5 @@
+# User-uploaded files must never execute as server-side scripts.
+Options -Indexes
+<FilesMatch "(?i)\.(php|phtml|phar|php[0-9]|pl|cgi|sh)$">
+    Require all denied
+</FilesMatch>
