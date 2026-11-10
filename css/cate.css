@@ -1,0 +1,407 @@
+/* ==========================================================================
+   NSBM ArtCraft — Category artwork feed
+   File: /css/cate.css
+   Page: connect_categoy.php
+
+   Markup covered:
+   main.category-artworks-page
+     div.category-artworks-container
+       header.category-artworks-intro > h1, p
+       div.category-artworks-grid
+         article.category-artwork-card
+           a > img, h2
+           p (byline), p (description)
+       h1 / p / a            (error, not-found and empty states)
+
+   Notes
+   - Every rule is scoped under .category-artworks-page so shared
+     components (header, footer, style.css, artists.css) are untouched.
+   - Mobile-first: base styles target phones; min-width queries scale up.
+   - Corner scale: G1 = small elements, G2 = cards and large containers,
+     B2 = buttons (fully rounded ends).
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Design tokens (scoped to the page wrapper)
+   -------------------------------------------------------------------------- */
+.category-artworks-page {
+    /* Palette */
+    --ac-white: #FFFFFF;
+    --ac-blue: #0D6BB6;
+    --ac-blue-dark: #0A5A9B;
+    --ac-green: #3BA73C;
+    --ac-black: #1D1D1F;
+    --ac-charcoal: #3C4043;
+    --ac-gray: #5F6368;
+    --ac-gray-300: #C9CDD2;
+    --ac-gray-200: #E3E5E8;
+    --ac-gray-100: #F4F5F7;
+
+    /* Typography */
+    --ac-font-heading: "Helvetica Neue", Helvetica, Roboto, Arial, "Segoe UI", sans-serif;
+    --ac-font-body: Roboto, Helvetica, "Helvetica Neue", Arial, "Segoe UI", sans-serif;
+
+    /* Corners */
+    --ac-radius-g1: 8px;      /* G1: small UI elements */
+    --ac-radius-g2: 20px;     /* G2: cards and large containers */
+    --ac-radius-b2: 999px;    /* B2: buttons */
+
+    /* Spacing */
+    --ac-space-1: 0.25rem;
+    --ac-space-2: 0.5rem;
+    --ac-space-3: 0.75rem;
+    --ac-space-4: 1rem;
+    --ac-space-5: 1.25rem;
+    --ac-space-6: 1.5rem;
+    --ac-space-8: 2rem;
+    --ac-space-10: 2.5rem;
+
+    /* Layout */
+    --ac-container-width: 720px;
+    --ac-page-gutter: clamp(0.75rem, 4vw, 1.5rem);
+    --ac-card-padding: var(--ac-space-4);
+    --ac-feed-gap: var(--ac-space-6);
+
+    /* Motion */
+    --ac-transition: 0.2s ease;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Page wrapper
+   -------------------------------------------------------------------------- */
+.category-artworks-page,
+.category-artworks-page *,
+.category-artworks-page *::before,
+.category-artworks-page *::after {
+    box-sizing: border-box;
+}
+
+.category-artworks-page {
+    width: 100%;
+    min-height: 60vh;
+    padding: var(--ac-space-6) var(--ac-page-gutter) var(--ac-space-10);
+    background: var(--ac-gray-100);
+    color: var(--ac-charcoal);
+    font-family: var(--ac-font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: hidden;   /* fallback */
+    overflow-x: clip;     /* no horizontal scrolling, no scroll container */
+    -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Centered content container
+   -------------------------------------------------------------------------- */
+.category-artworks-page .category-artworks-container {
+    width: 100%;
+    max-width: var(--ac-container-width);
+    margin: 0 auto;
+    min-width: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Headings and intro
+   -------------------------------------------------------------------------- */
+.category-artworks-page h1,
+.category-artworks-page h2 {
+    font-family: var(--ac-font-heading);
+    color: var(--ac-black);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.category-artworks-page h1 {
+    margin: 0 0 var(--ac-space-2);
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.category-artworks-page .category-artworks-intro {
+    margin: 0 0 var(--ac-space-6);
+    padding: var(--ac-space-2) 0 var(--ac-space-5);
+    border-bottom: 1px solid var(--ac-gray-200);
+}
+
+.category-artworks-page .category-artworks-intro h1 {
+    margin-bottom: var(--ac-space-2);
+}
+
+.category-artworks-page .category-artworks-intro p {
+    margin: 0;
+    color: var(--ac-gray);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Status messages (error, not found, empty)
+   -------------------------------------------------------------------------- */
+.category-artworks-page .category-artworks-container > p {
+    margin: 0 0 var(--ac-space-5);
+    max-width: 60ch;
+    color: var(--ac-gray);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Buttons and button-like links
+   -------------------------------------------------------------------------- */
+.category-artworks-page .category-artworks-container > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;                     /* full width on phones */
+    min-height: 48px;                /* comfortable tap target */
+    margin-top: var(--ac-space-2);
+    padding: 0 var(--ac-space-8);
+    border: 0;
+    border-radius: var(--ac-radius-b2);
+    background-color: var(--ac-blue);
+    color: var(--ac-white);
+    font-family: var(--ac-font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color var(--ac-transition);
+}
+
+.category-artworks-page .category-artworks-container > a:active {
+    background-color: var(--ac-green);
+    color: var(--ac-white);
+}
+
+.category-artworks-page .category-artworks-container > a:focus-visible {
+    outline: 3px solid var(--ac-blue);
+    outline-offset: 3px;
+}
+
+.category-artworks-page .category-artworks-container > a[aria-disabled="true"] {
+    background-color: var(--ac-gray-300);
+    color: var(--ac-white);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Artwork feed — vertical, single column, one artwork after another
+   -------------------------------------------------------------------------- */
+.category-artworks-page .category-artworks-grid {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: var(--ac-feed-gap);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Artwork card
+   -------------------------------------------------------------------------- */
+.category-artworks-page .category-artwork-card {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 var(--ac-card-padding);
+    overflow: hidden;
+    background: var(--ac-white);
+    border: 1px solid var(--ac-gray-200);
+    border-radius: var(--ac-radius-g2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: border-color var(--ac-transition);
+}
+
+/* Image + title link */
+.category-artworks-page .category-artwork-card > a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.category-artworks-page .category-artwork-card > a:focus-visible {
+    outline: 3px solid var(--ac-blue);
+    outline-offset: -3px;           /* inset so the card edge doesn't clip it */
+}
+
+/* Artwork image: fixed-ratio box, image zoomed to fill it (cropped to cover) */
+.category-artworks-page .category-artwork-card img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    background-color: var(--ac-gray-100);
+    border-bottom: 1px solid var(--ac-gray-200);
+}
+
+/* Title */
+.category-artworks-page .category-artwork-card h2 {
+    margin: 0;
+    padding: var(--ac-space-4) var(--ac-card-padding) 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    transition: color var(--ac-transition);
+}
+
+.category-artworks-page .category-artwork-card > a:active h2 {
+    color: var(--ac-green);
+}
+
+/* Artist byline */
+.category-artworks-page .category-artwork-card > a + p {
+    margin: var(--ac-space-1) 0 0;
+    padding: 0 var(--ac-card-padding);
+    color: var(--ac-gray);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* Description */
+.category-artworks-page .category-artwork-card > p + p {
+    margin: var(--ac-space-3) 0 0;
+    padding: 0 var(--ac-card-padding);
+    color: var(--ac-charcoal);
+    font-size: 1rem;
+    line-height: 1.65;
+    white-space: pre-line;           /* keep the artist's line breaks */
+    overflow-wrap: anywhere;
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Hover states (pointer devices only, avoids sticky hover on touch)
+   -------------------------------------------------------------------------- */
+@media (hover: hover) {
+    .category-artworks-page .category-artworks-container > a:hover {
+        background-color: var(--ac-blue-dark);
+        color: var(--ac-white);
+    }
+
+    /* Keep the pressed state green even while the pointer is over the button */
+    .category-artworks-page .category-artworks-container > a:active:hover {
+        background-color: var(--ac-green);
+    }
+
+    .category-artworks-page .category-artwork-card:hover {
+        border-color: var(--ac-gray-300);
+    }
+
+    .category-artworks-page .category-artwork-card > a:hover h2 {
+        color: var(--ac-blue);
+    }
+
+    .category-artworks-page .category-artwork-card > a:active:hover h2 {
+        color: var(--ac-green);
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   10. Small phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 359px) {
+    .category-artworks-page {
+        --ac-card-padding: var(--ac-space-3);
+        --ac-feed-gap: var(--ac-space-5);
+    }
+
+    .category-artworks-page .category-artwork-card h2 {
+        font-size: 1.125rem;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   11. Large phones / small tablets (600px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 600px) {
+    .category-artworks-page {
+        --ac-card-padding: var(--ac-space-5);
+        --ac-feed-gap: var(--ac-space-8);
+        padding-top: var(--ac-space-8);
+        padding-bottom: calc(var(--ac-space-10) + var(--ac-space-4));
+    }
+
+    .category-artworks-page .category-artworks-intro {
+        margin-bottom: var(--ac-space-8);
+    }
+
+    .category-artworks-page .category-artworks-container > a {
+        width: auto;
+        min-width: 200px;
+    }
+
+    .category-artworks-page .category-artwork-card h2 {
+        padding-top: var(--ac-space-5);
+        font-size: 1.375rem;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   12. Tablets and small laptops (900px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 900px) {
+    .category-artworks-page {
+        --ac-container-width: 760px;
+        --ac-card-padding: var(--ac-space-6);
+        padding-top: var(--ac-space-10);
+    }
+
+    .category-artworks-page .category-artwork-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .category-artworks-page .category-artwork-card > a + p {
+        font-size: 1rem;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   13. Large displays (1440px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1440px) {
+    .category-artworks-page {
+        --ac-container-width: 840px;
+        padding-top: 3.5rem;
+        padding-bottom: 5rem;
+    }
+
+    .category-artworks-page .category-artwork-card > p + p {
+        font-size: 1.0625rem;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   14. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .category-artworks-page .category-artworks-container > a,
+    .category-artworks-page .category-artwork-card,
+    .category-artworks-page .category-artwork-card h2 {
+        transition: none;
+    }
+}
