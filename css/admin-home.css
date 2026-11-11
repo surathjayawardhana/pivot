@@ -1,0 +1,400 @@
+
+/* =========================================================
+   NSBM ARTCRAFT — ADMIN LANDING PAGE
+   Minimalist | Golden Ratio | Responsive
+========================================================= */
+
+:root {
+    --blue: #0D6BB6;
+    --green: #3BA73C;
+    --white: #FFFFFF;
+    --text: #1D1D1F;
+    --muted: #777777;
+
+    /* Golden ratio */
+    --phi: 1.618;
+
+    /* Typography scale */
+    --fs-small: 0.625rem;
+    --fs-body: 1rem;
+    --fs-card: 1.625rem;
+    --fs-heading: 2.625rem;
+
+    /* Golden spacing scale */
+    --space-1: 8px;
+    --space-2: 13px;
+    --space-3: 21px;
+    --space-4: 34px;
+    --space-5: 55px;
+
+    --card-radius: 21px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    font-family: Helvetica, Roboto, Arial, sans-serif;
+
+    color: var(--white);
+
+    /* Darkened NSBM background */
+    background:
+        linear-gradient(
+            rgba(10, 18, 30, 0.74),
+            rgba(10, 18, 30, 0.82)
+        ),
+        url("../assets/images/NSBMover.jpg");
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.portal {
+    position: relative;
+
+    width: min(1000px, 86%);
+
+    min-height: 100vh;
+    min-height: 100svh;
+
+    margin-inline: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: var(--space-5);
+
+    padding-block:
+        max(var(--space-5), env(safe-area-inset-top))
+        max(var(--space-5), env(safe-area-inset-bottom));
+}
+
+
+/* =========================================================
+   WELCOME SECTION
+========================================================= */
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: var(--space-2);
+}
+
+.eyebrow {
+    color: var(--white);
+
+    font-size: var(--fs-small);
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    line-height: var(--phi);
+}
+
+.welcome h1 {
+    max-width: 18ch;
+
+    color: var(--white);
+
+    font-size: clamp(32px, 4.2vw, var(--fs-heading));
+    font-weight: 700;
+
+    letter-spacing: -1.5px;
+    line-height: 1.2;
+
+    text-wrap: balance;
+}
+
+.welcome > p:last-child {
+    max-width: 61.8ch;
+
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: var(--fs-body);
+    line-height: var(--phi);
+
+    text-wrap: pretty;
+}
+
+
+/* =========================================================
+   DESTINATION CARDS
+========================================================= */
+
+.destinations {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: var(--space-4);
+}
+
+.destination {
+    /* Golden rectangle */
+    aspect-ratio: 1.618 / 1;
+
+    min-width: 0;
+    padding: var(--space-4);
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: var(--space-2);
+
+    color: var(--white);
+    text-decoration: none;
+
+    border-radius: var(--card-radius);
+
+    font-size: var(--fs-card);
+    font-weight: 600;
+
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+
+    transition:
+        transform 180ms ease,
+        background-color 180ms ease;
+}
+
+.destination > span:first-child {
+    max-width: 13ch;
+    text-wrap: balance;
+}
+
+
+/* Administration */
+
+.destination--admin {
+    background: var(--blue);
+}
+
+
+/* Public website */
+
+.destination--site {
+    background: var(--green);
+}
+
+
+/* =========================================================
+   CARD INTERACTIONS
+========================================================= */
+
+.destination:hover {
+    transform: translateY(-4px);
+}
+
+.destination--admin:hover {
+    background: #09558F;
+}
+
+.destination--site:hover {
+    background: #2D842E;
+}
+
+.destination:active {
+    transform: scale(0.985);
+}
+
+.destination:focus-visible {
+    outline: 3px solid var(--white);
+    outline-offset: 5px;
+}
+
+.arrow {
+    flex-shrink: 0;
+
+    font-size: var(--fs-card);
+    line-height: 1;
+
+    transition: transform 180ms ease;
+}
+
+.destination:hover .arrow {
+    transform: translate(3px, -3px);
+}
+
+
+/* =========================================================
+   LOGOUT BUTTON
+========================================================= */
+
+.portal-logout {
+    position: absolute;
+
+    top: 28px;
+    right: 0;
+}
+
+.portal-logout form {
+    margin: 0;
+}
+
+.logout-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 17px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+
+    color: var(--white);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease;
+}
+
+.logout-button:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+}
+
+.logout-button:active {
+    background: var(--green);
+    border-color: var(--green);
+}
+
+.logout-button:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .portal {
+        width: 88%;
+        gap: var(--space-4);
+    }
+
+    .destinations {
+        gap: var(--space-3);
+    }
+
+    .destination {
+        padding: var(--space-3);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+    .portal {
+        width: 88%;
+
+        min-height: 100svh;
+        height: auto;
+
+        gap: var(--space-4);
+
+        padding-block: 95px var(--space-5);
+    }
+
+    .welcome h1 {
+        font-size: clamp(30px, 8vw, 42px);
+        letter-spacing: -1px;
+    }
+
+    /* Stack destination cards vertically */
+
+    .destinations {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .destination {
+        width: 100%;
+
+        aspect-ratio: 1.618 / 1;
+
+        padding: var(--space-3);
+
+        font-size: var(--fs-card);
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .portal {
+        width: 90%;
+    }
+
+    .destination {
+        padding: var(--space-2);
+        font-size: 23px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+}

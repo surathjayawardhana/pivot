@@ -1,0 +1,899 @@
+
+/* ================================================================
+   ARTCRAFT — USER MANAGEMENT
+   Minimalist responsive admin design.
+
+   Palette: White / Black / #3BA73C / Red / Gray
+   G1: 8px | G2: 20px
+   Fonts: Helvetica Neue / Helvetica / Roboto
+
+   Desktop: Traditional table.
+   Mobile: Stacked user records.
+
+   Scoped to .um-admin.
+   ================================================================ */
+
+
+/* ================================================================
+   01. DESIGN TOKENS & BASE
+   ================================================================ */
+
+.um-admin {
+    --um-white: #FFFFFF;
+    --um-black: #000000;
+
+    --um-green: #3BA73C;
+    --um-green-soft: #F1F8F1;
+
+    --um-red: #E53935;
+    --um-red-soft: #FEF3F2;
+
+    --um-gray-900: #1D1D1F;
+    --um-gray-700: #48484A;
+    --um-gray-500: #86868B;
+    --um-gray-300: #D2D2D7;
+    --um-gray-200: #E8E8ED;
+    --um-gray-100: #F5F5F7;
+
+    --um-g1: 8px;
+    --um-g2: 20px;
+
+    --um-font-heading: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    --um-font-body: Roboto, Helvetica, "Helvetica Neue", Arial, sans-serif;
+
+    --um-transition: 160ms ease;
+
+    box-sizing: border-box;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 32px 24px;
+
+    background: var(--um-white);
+    color: var(--um-gray-900);
+
+    font-family: var(--um-font-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.um-admin *,
+.um-admin *::before,
+.um-admin *::after {
+    box-sizing: border-box;
+}
+
+
+/* ================================================================
+   02. HEADER
+   ================================================================ */
+
+.um-admin .um-admin__header {
+    margin-bottom: 24px;
+}
+
+.um-admin .um-admin__title {
+    margin: 0 0 6px;
+
+    color: var(--um-black);
+
+    font-family: var(--um-font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.um-admin .um-admin__summary {
+    margin: 0;
+
+    color: var(--um-gray-500);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ================================================================
+   03. NOTIFICATIONS
+   ================================================================ */
+
+.um-admin .um-admin__notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 20px;
+    padding: 12px 14px;
+
+    border: 1px solid var(--um-gray-200);
+    border-radius: var(--um-g1);
+
+    background: var(--um-white);
+    color: var(--um-gray-900);
+
+    font-size: 13px;
+}
+
+.um-admin .um-admin__notice--success {
+    border-left: 3px solid var(--um-green);
+}
+
+.um-admin .um-admin__notice--error {
+    border-left: 3px solid var(--um-red);
+}
+
+.um-admin .um-admin__notice--error strong {
+    color: var(--um-red);
+}
+
+.um-admin .um-admin__notice code {
+    padding: 2px 6px;
+
+    border-radius: var(--um-g1);
+    background: var(--um-gray-100);
+
+    color: var(--um-gray-900);
+    font-family: monospace;
+    font-size: 12px;
+}
+
+
+/* ================================================================
+   04. FILTERS
+   ================================================================ */
+
+.um-admin .um-admin__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+
+    margin: 0 0 18px;
+    padding: 0;
+
+    background: transparent;
+}
+
+.um-admin .um-admin__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    min-width: 130px;
+}
+
+.um-admin .um-admin__field--grow {
+    flex: 1 1 220px;
+}
+
+.um-admin .um-admin__field--buttons {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.um-admin .um-admin__field label {
+    color: var(--um-gray-500);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+/* ================================================================
+   05. INPUTS
+   ================================================================ */
+
+.um-admin .um-admin__input {
+    width: 100%;
+    height: 36px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--um-gray-300);
+    border-radius: var(--um-g1);
+
+    background: var(--um-white);
+    color: var(--um-black);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition: border-color var(--um-transition);
+}
+
+.um-admin .um-admin__input::placeholder {
+    color: var(--um-gray-500);
+}
+
+.um-admin .um-admin__input:hover {
+    border-color: var(--um-gray-500);
+}
+
+.um-admin .um-admin__input:focus {
+    border-color: var(--um-black);
+}
+
+
+/* ================================================================
+   06. BUTTONS
+   ================================================================ */
+
+.um-admin .um-admin__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 34px;
+    padding: 0 12px;
+
+    border: 1px solid var(--um-gray-300);
+    border-radius: var(--um-g1);
+
+    background: var(--um-white);
+    color: var(--um-gray-900);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color var(--um-transition),
+        color var(--um-transition),
+        border-color var(--um-transition);
+}
+
+.um-admin .um-admin__button:hover:not(:disabled) {
+    border-color: var(--um-black);
+    background: var(--um-gray-100);
+    color: var(--um-black);
+}
+
+/* Primary */
+
+.um-admin .um-admin__button--solid {
+    min-height: 36px;
+
+    border-color: var(--um-black);
+    background: var(--um-black);
+    color: var(--um-white);
+}
+
+.um-admin .um-admin__button--solid:hover:not(:disabled) {
+    border-color: var(--um-gray-700);
+    background: var(--um-gray-700);
+    color: var(--um-white);
+}
+
+/* Destructive */
+
+.um-admin .um-admin__button--danger {
+    border-color: var(--um-red);
+    background: var(--um-white);
+    color: var(--um-red);
+}
+
+.um-admin .um-admin__button--danger:hover:not(:disabled) {
+    border-color: var(--um-red);
+    background: var(--um-red-soft);
+    color: var(--um-red);
+}
+
+.um-admin .um-admin__button--danger-solid {
+    border-color: var(--um-red);
+    background: var(--um-red);
+    color: var(--um-white);
+}
+
+.um-admin .um-admin__button--danger-solid:hover:not(:disabled) {
+    background: var(--um-white);
+    color: var(--um-red);
+}
+
+.um-admin .um-admin__button:disabled {
+    border-color: var(--um-gray-200);
+    background: var(--um-gray-100);
+    color: var(--um-gray-500);
+    cursor: not-allowed;
+}
+
+.um-admin summary.um-admin__button {
+    list-style: none;
+}
+
+.um-admin summary.um-admin__button::-webkit-details-marker {
+    display: none;
+}
+
+
+/* ================================================================
+   07. LINKS & FOCUS
+   ================================================================ */
+
+.um-admin .um-admin__link {
+    color: var(--um-gray-900);
+
+    font-size: 13px;
+
+    text-decoration: underline;
+    text-decoration-color: var(--um-gray-300);
+    text-underline-offset: 3px;
+}
+
+.um-admin .um-admin__link:hover {
+    text-decoration-color: var(--um-black);
+}
+
+.um-admin .um-admin__input:focus-visible,
+.um-admin .um-admin__button:focus-visible,
+.um-admin .um-admin__link:focus-visible,
+.um-admin .um-admin__pager a:focus-visible,
+.um-admin .um-admin__scroll:focus-visible {
+    outline: 2px solid var(--um-green);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   08. USER TABLE — DESKTOP
+   ================================================================ */
+
+.um-admin .um-admin__count {
+    margin: 0 0 10px;
+
+    color: var(--um-gray-500);
+    font-size: 12px;
+}
+
+.um-admin .um-admin__empty {
+    margin: 0;
+    padding: 32px 16px;
+
+    border: 1px dashed var(--um-gray-300);
+    border-radius: var(--um-g2);
+
+    color: var(--um-gray-500);
+    font-size: 13px;
+    text-align: center;
+}
+
+.um-admin .um-admin__scroll {
+    width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--um-gray-200);
+    border-radius: var(--um-g2);
+
+    background: var(--um-white);
+
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--um-gray-300) transparent;
+}
+
+.um-admin .um-admin__table {
+    width: 100%;
+    min-width: 960px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    background: var(--um-white);
+    font-size: 13px;
+}
+
+.um-admin .um-admin__table th {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid var(--um-gray-200);
+
+    background: var(--um-gray-100);
+    color: var(--um-gray-500);
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.055em;
+
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.um-admin .um-admin__table td {
+    padding: 11px 14px;
+
+    border-bottom: 1px solid var(--um-gray-200);
+
+    color: var(--um-gray-900);
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+.um-admin .um-admin__table tbody tr {
+    transition: background-color var(--um-transition);
+}
+
+.um-admin .um-admin__table tbody tr:hover {
+    background: #FAFAFA;
+}
+
+.um-admin .um-admin__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* ================================================================
+   09. USER INFORMATION
+   ================================================================ */
+
+.um-admin .um-admin__row--removed td {
+    color: var(--um-gray-500);
+}
+
+.um-admin .um-admin__username {
+    color: var(--um-black);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.um-admin .um-admin__row--removed .um-admin__username {
+    color: var(--um-gray-600);
+    font-weight: 500;
+}
+
+.um-admin .um-admin__id {
+    color: var(--um-gray-500);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.um-admin .um-admin__muted {
+    color: var(--um-gray-500);
+    font-size: 12px;
+}
+
+.um-admin .um-admin__when {
+    display: block;
+
+    color: var(--um-gray-500);
+
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.um-admin .um-admin__email {
+    color: var(--um-gray-700);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.um-admin .um-admin__you {
+    display: inline-flex;
+    align-items: center;
+
+    margin-left: 5px;
+    padding: 2px 7px;
+
+    border: 1px solid var(--um-green);
+    border-radius: var(--um-g1);
+
+    color: var(--um-green);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* ================================================================
+   10. ROLE & ACCOUNT STATUS
+   ================================================================ */
+
+.um-admin .um-admin__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 2px 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    color: var(--um-gray-700);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.um-admin .um-admin__badge--admin {
+    color: var(--um-green);
+    font-weight: 600;
+}
+
+.um-admin .um-admin__badge--student {
+    color: var(--um-gray-700);
+}
+
+.um-admin .um-admin__dot {
+    flex: 0 0 7px;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.um-admin .um-admin__badge--active {
+    color: var(--um-green);
+}
+
+.um-admin .um-admin__badge--suspended {
+    color: var(--um-red);
+    font-weight: 600;
+}
+
+.um-admin .um-admin__badge--removed {
+    color: var(--um-gray-500);
+}
+
+
+/* ================================================================
+   11. USER ACTIONS
+   ================================================================ */
+
+.um-admin .um-admin__actions {
+    min-width: 230px;
+}
+
+.um-admin .um-admin__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+}
+
+.um-admin .um-admin__controls form {
+    margin: 0;
+}
+
+.um-admin .um-admin__reason {
+    margin: 7px 0 0;
+
+    color: var(--um-gray-500);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.um-admin .um-admin__confirm {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.um-admin .um-admin__confirm summary {
+    display: inline-flex;
+    align-items: center;
+}
+
+.um-admin .um-admin__confirm-box {
+    max-width: 280px;
+    margin-top: 9px;
+    padding: 12px;
+
+    border: 1px solid var(--um-red);
+    border-radius: var(--um-g1);
+
+    background: var(--um-white);
+    color: var(--um-gray-900);
+
+    white-space: normal;
+}
+
+.um-admin .um-admin__confirm-box p {
+    margin: 0 0 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* ================================================================
+   12. PAGINATION
+   ================================================================ */
+
+.um-admin .um-admin__pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin: 18px 0 0;
+
+    color: var(--um-gray-500);
+    font-size: 12px;
+}
+
+.um-admin .um-admin__pager a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0 9px;
+
+    border: 1px solid var(--um-gray-200);
+    border-radius: var(--um-g1);
+
+    color: var(--um-gray-900);
+    text-decoration: none;
+}
+
+.um-admin .um-admin__pager a:hover {
+    border-color: var(--um-black);
+}
+
+
+/* ================================================================
+   13. SCREEN READER TEXT
+   ================================================================ */
+
+.um-admin .um-admin__sr {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* ================================================================
+   14. SECTION DIVIDER
+   ================================================================ */
+
+hr.um-section-divider {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+
+    border: 0;
+    border-top: 1px solid #E8E8ED;
+}
+
+
+/* ================================================================
+   15. TABLET
+   ================================================================ */
+
+@media (max-width: 900px) {
+
+    .um-admin {
+        padding: 28px 18px;
+    }
+
+    .um-admin .um-admin__table {
+        min-width: 850px;
+    }
+}
+
+
+/* ================================================================
+   16. MOBILE — STACKED USER RECORDS
+   ================================================================ */
+
+@media (max-width: 760px) {
+
+    .um-admin {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 22px 14px;
+    }
+
+    .um-admin .um-admin__title {
+        font-size: 22px;
+    }
+
+    /* Filters */
+
+    .um-admin .um-admin__filters {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .um-admin .um-admin__field,
+    .um-admin .um-admin__field--grow {
+        width: 100%;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .um-admin .um-admin__field--buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    /* Remove horizontal table scrolling */
+
+    .um-admin .um-admin__scroll {
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .um-admin .um-admin__table {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .um-admin .um-admin__table thead {
+        display: none;
+    }
+
+    .um-admin .um-admin__table tbody {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .um-admin .um-admin__table tbody tr {
+        display: block;
+        min-width: 0;
+        padding: 10px 13px;
+
+        border: 1px solid var(--um-gray-200);
+        border-radius: var(--um-g2);
+
+        background: var(--um-white);
+    }
+
+    .um-admin .um-admin__table tbody tr:hover {
+        background: var(--um-white);
+    }
+
+    .um-admin .um-admin__table tbody td {
+        display: grid;
+        grid-template-columns: minmax(85px, 34%) minmax(0, 1fr);
+        align-items: start;
+        gap: 8px;
+
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+
+        padding: 9px 0;
+
+        border-bottom: 1px solid var(--um-gray-200);
+
+        overflow-wrap: anywhere;
+    }
+
+    .um-admin .um-admin__table tbody tr td:last-child {
+        border-bottom: 0;
+    }
+
+    .um-admin .um-admin__table td::before {
+        content: attr(data-label);
+
+        color: var(--um-gray-500);
+
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        line-height: 1.5;
+
+        text-transform: uppercase;
+    }
+
+    /* User information */
+
+    .um-admin .um-admin__username,
+    .um-admin .um-admin__email,
+    .um-admin .um-admin__id,
+    .um-admin .um-admin__when {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* Actions */
+
+    .um-admin .um-admin__table td.um-admin__actions {
+        display: block;
+        padding-top: 12px;
+    }
+
+    .um-admin .um-admin__actions::before {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .um-admin .um-admin__controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .um-admin .um-admin__controls form {
+        max-width: 100%;
+    }
+
+    .um-admin .um-admin__button {
+        max-width: 100%;
+        min-height: 36px;
+    }
+
+    .um-admin .um-admin__confirm {
+        max-width: 100%;
+    }
+
+    .um-admin .um-admin__confirm-box {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+/* ================================================================
+   17. VERY SMALL PHONES
+   ================================================================ */
+
+@media (max-width: 380px) {
+
+    .um-admin {
+        padding: 22px 10px;
+    }
+
+    .um-admin .um-admin__table tbody tr {
+        padding: 9px 10px;
+    }
+
+    .um-admin .um-admin__table tbody td {
+        grid-template-columns: minmax(76px, 31%) minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .um-admin .um-admin__controls {
+        gap: 6px;
+    }
+
+    .um-admin .um-admin__button {
+        padding: 0 9px;
+        font-size: 12px;
+    }
+}
+
+
+/* ================================================================
+   18. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .um-admin *,
+    .um-admin *::before,
+    .um-admin *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
